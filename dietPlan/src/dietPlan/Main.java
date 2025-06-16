@@ -1,19 +1,25 @@
 package dietPlan;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.util.List;
 
 public class Main {
+    public static void main(String[] args) {
+        // Load food list from DB (once)
+        List<Food> allFoods = getAllMealFoodNames.getAllFoods();
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setSize(400, 400);
-		
-		JPanel panel = new JPanel();
-		frame.add(panel);
-		
-		
-		frame.setVisible(true);
-		
-	}
+        // Create the main application frame
+        JFrame frame = new JFrame("Diet Tracker");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Use a tabbed interface to switch between MealBuilder and Viewer
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Log Meal", new MealBuilderPanel(allFoods));
+        tabs.add("View Meals", new MealViewerPanel());
+
+        frame.setContentPane(tabs);
+        frame.pack();
+        frame.setLocationRelativeTo(null); // Center on screen
+        frame.setVisible(true);
+    }
 }
