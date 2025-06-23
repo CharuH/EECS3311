@@ -27,7 +27,7 @@ public class MealViewerPanel extends JPanel {
         topPanel.add(loadButton);
         this.add(topPanel, BorderLayout.NORTH);
 
-        // Meal Summary not really working
+        // Meal Summary only displays mealtype and calories currently
         mealSummaryArea = new JTextArea(15, 40);
         mealSummaryArea.setEditable(false);
         this.add(new JScrollPane(mealSummaryArea), BorderLayout.CENTER);

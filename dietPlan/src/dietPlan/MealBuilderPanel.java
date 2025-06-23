@@ -107,7 +107,7 @@ public class MealBuilderPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Invalid quantity format.");
         }
     }
-
+    
     private void saveMeal() {
         Date date = dateChooser.getDate();
         if (date == null) {

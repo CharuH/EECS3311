@@ -8,7 +8,7 @@ import java.sql.Date;
 
 public class MealDAO {
 
-    // 1. Save a meal and return its  ID
+    // Save a meal, return ID
     public static int saveMeal(Meal meal) {
         String insertMealSQL = "INSERT INTO meals (meal_date, meal_type) VALUES (?, ?)";
         try (Connection conn = Dbfetch.getConnection();
@@ -33,7 +33,7 @@ public class MealDAO {
         return -1; 
     }
 
-    // 2. Save MealFood for a given meal
+    // Save MealFoods for a given meal
     private static void saveMealFoods(int mealId, List<MealFood> foods) {
         String insertSQL = "INSERT INTO meal_foods (meal_id, food_id, quantity_in_grams) VALUES (?, ?, ?)";
         try (Connection conn = Dbfetch.getConnection();
@@ -52,7 +52,7 @@ public class MealDAO {
         }
     }
 
-    // 3. Retrieve meals for a specific date
+    //Retrieve meals for a specific date
     public static List<Meal> getMealsByDate(LocalDate date) {
         List<Meal> meals = new ArrayList<>();
         String query = "SELECT * FROM meals WHERE meal_date = ?";
@@ -81,7 +81,7 @@ public class MealDAO {
         return meals;
     }
 
-    // 4. Retrieve foods for a given meal
+    // Retrieve foods for a given meal
     public static List<MealFood> getMealFoodsByMealId(int mealId) {
         List<MealFood> mealFoods = new ArrayList<>();
         String query = "SELECT food_id, quantity_in_grams FROM meal_foods WHERE meal_id = ?";

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class getAllMealFoodNames {
+	//for search suggestions
 	public static List<Food> getAllFoods() {
 	    List<Food> foods = new ArrayList<>();
 	    String query = "SELECT FoodID, FoodDescription FROM `food name`";

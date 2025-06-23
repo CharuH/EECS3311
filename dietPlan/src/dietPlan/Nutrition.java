@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Nutrition {
+	//unused so far, will allow nutritional breakdowns
     private Map<String, Double> nutrients;
 
     public Nutrition() {

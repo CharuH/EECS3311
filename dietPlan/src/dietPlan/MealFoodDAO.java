@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 
 public class MealFoodDAO {
-	
+		//current implementation actually creates the objects inside DAO, will change after refactoring
 	    public static MealFood getMealFood(int id, double qty) {
 	    	String query = "SELECT * FROM `food name` WHERE FoodID = ?";
 	        try (Connection conn = Dbfetch.getConnection();
@@ -26,7 +26,7 @@ public class MealFoodDAO {
 	        }
 	        return null;
 	    }
-	    
+	    //returns string name of Mealfood given ID
 	    public static String getFoodNameById(int id) {
 	        String query = "SELECT FoodDescription FROM `food name` WHERE FoodID = ?";
 	        try (Connection conn = Dbfetch.getConnection();
