@@ -1,0 +1,71 @@
+package accCreate;
+
+import java.awt.BorderLayout;
+import java.time.LocalDate;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class MainUI extends JFrame {
+	
+	private JPanel currentPanel;
+	private SidePanel sidePanel;
+	private Settings settings;
+	private ProfileM profileM;
+	private ProfileI profileI;
+	private UserData currentUser;
+	
+	
+	public MainUI(UserData currentUser) {
+		setTitle("Nutrition Tracker");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 600);
+        setLayout(new BorderLayout());
+        this.currentUser = currentUser;
+        
+        JPanel home = new JPanel();
+        add(home, BorderLayout.EAST);
+        currentPanel = home;
+
+        sidePanel = new SidePanel(this);
+        add(sidePanel, BorderLayout.WEST);
+        
+	}
+	
+	// Method to switch screens
+    public void switchToScreen(String screenName) {
+    	remove(currentPanel);
+        if (screenName.equals("settings")) {
+        	settings = new Settings(this);
+        	currentPanel = settings;
+        	add(settings, BorderLayout.EAST);
+        } else if (screenName.equals("profileM")) {
+        	profileM = new ProfileM(this);
+        	currentPanel = profileM;
+        	add(profileM, BorderLayout.EAST);
+        } else if (screenName.equals("profileI")) {
+        	profileI = new ProfileI(this);
+        	currentPanel = profileI;
+        	add(profileI, BorderLayout.EAST);
+        }
+        revalidate();
+        repaint();
+    }
+	
+	public void profile1(String username, String password, String units) {
+    	currentUser.setUsername(username);
+    	currentUser.setPassword(password);
+    	currentUser.setUnits(units);
+    }
+    
+    public void profile2(String sex, LocalDate dob, double weight, double height) {
+    	currentUser.setSex(sex);
+    	currentUser.setDob(dob);
+    	currentUser.setWeight(weight);
+    	currentUser.setHeight(height);
+    }
+	
+	public UserData getUser() {
+    	return currentUser;
+    }
+}
