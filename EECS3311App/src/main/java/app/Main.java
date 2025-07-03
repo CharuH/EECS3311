@@ -6,7 +6,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         // Load food list from DB (once)
-        List<Food> allFoods = getAllMealFoodNames.getAllFoods();
+        List<Food> allFoods = MealFoodDAO.getAllFoods();
 
         // Create the main application
         JFrame frame = new JFrame("Diet Tracker");

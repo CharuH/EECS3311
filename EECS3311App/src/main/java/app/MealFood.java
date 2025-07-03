@@ -18,7 +18,7 @@ public class MealFood extends Food{
     }
     
     public double returnCalories() {
-    	double Calpergram=CalorieDAO.getKcalbyFoodID(this.foodId);
+    	double Calpergram=NutritionDAO.getKcalbyFoodID(this.foodId);
     	//calories per 100grams
 		return (Calpergram/100)*quantityInGrams;
     	
