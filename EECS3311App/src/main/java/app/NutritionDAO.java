@@ -9,30 +9,38 @@ import java.sql.SQLException;
 
 public class NutritionDAO {
 	public static FoodNutrition getNutritionByFoodID(int foodID) {
-        FoodNutrition foodNutrition = new FoodNutrition(foodID);
-        
+	    FoodNutrition foodNutrition = new FoodNutrition(foodID);
 
-        String sql = "SELECT NutrientID, NutrientValue FROM nutrient_amount WHERE foodid = ?";
+	    String sql = """
+	    		SELECT nutrient_amount.NutrientID, nutrient_amount.NutrientValue, nutrient_name.NutrientDecimals
+	    		FROM nutrient_amount
+	    		JOIN nutrient_name ON nutrient_amount.NutrientID = nutrient_name.NutrientID
+	    		WHERE nutrient_amount.foodid = ?
 
-        try (Connection conn = Dbfetch.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	    """;
 
-            stmt.setInt(1, foodID);
-            ResultSet rs = stmt.executeQuery();
+	    try (Connection conn = Dbfetch.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                int nutrientCode = rs.getInt("NutrientID");
-                double nutrientValue = rs.getDouble("NutrientValue");
-                Integer wrapperCode = nutrientCode;//can get messy
-                foodNutrition.setNutrient(wrapperCode, nutrientValue);
-            }
+	        stmt.setInt(1, foodID);
+	        ResultSet rs = stmt.executeQuery();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	        while (rs.next()) {
+	            int nutrientCode = rs.getInt("NutrientID");
+	            double nutrientValue = rs.getDouble("NutrientValue");
+	            int nutrientDecimal = rs.getInt("NutrientDecimals");
 
-        return foodNutrition;
-    }
+	            double scaledValue = nutrientValue * Math.pow(10, -nutrientDecimal);
+
+	            foodNutrition.setNutrient(nutrientCode, scaledValue);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return foodNutrition;
+	}
 	
 	public static String getNutrientNameByID(int nutrientID) {
         String nutrientName = null;
