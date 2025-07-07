@@ -1,5 +1,7 @@
 package app;
 
+import java.util.Map;
+
 public class MealFood extends Food{
            // Foreign key to a food item
     private double quantityInGrams;
@@ -23,6 +25,12 @@ public class MealFood extends Food{
 		return (Calpergram/100)*quantityInGrams;
     	
     }
+    
+    public FoodNutrition getNutrition(){
+    	return NutritionDAO.getNutritionByFoodID(foodId);
+    }
+    
+    
 
     
 }

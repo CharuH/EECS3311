@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 
 public class NutritionDAO {
-	public FoodNutrition getNutritionByFoodID(int foodID) {
+	public static FoodNutrition getNutritionByFoodID(int foodID) {
         FoodNutrition foodNutrition = new FoodNutrition(foodID);
         
 
-        String sql = "SELECT nutrient_code, nutrient_value FROM food_nutrition_table WHERE food_id = ?";
+        String sql = "SELECT NutrientID, NutrientValue FROM nutrient_amount WHERE foodid = ?";
 
         try (Connection conn = Dbfetch.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,8 +21,8 @@ public class NutritionDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int nutrientCode = rs.getInt("nutrient_code");
-                double nutrientValue = rs.getDouble("nutrient_value");
+                int nutrientCode = rs.getInt("NutrientID");
+                double nutrientValue = rs.getDouble("NutrientValue");
                 Integer wrapperCode = nutrientCode;//can get messy
                 foodNutrition.setNutrient(wrapperCode, nutrientValue);
             }
@@ -32,6 +32,28 @@ public class NutritionDAO {
         }
 
         return foodNutrition;
+    }
+	
+	public static String getNutrientNameByID(int nutrientID) {
+        String nutrientName = null;
+
+        String sql = "SELECT NutrientName FROM nutrient_name WHERE NutrientID = ?";
+
+        try (Connection conn = Dbfetch.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, nutrientID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                nutrientName = rs.getString("NutrientName");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nutrientName != null ? nutrientName : "Unknown Nutrient";
     }
 	
 	public static int getKcalbyFoodID(int id) {

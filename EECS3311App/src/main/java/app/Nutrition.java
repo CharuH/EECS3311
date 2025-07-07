@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Nutrition {
-	//unused so far, will store nutrients of whole meal
+	
     private Map<Integer, Double> nutrients;
 
     public Nutrition() {
@@ -19,9 +19,9 @@ public class Nutrition {
         return nutrients.getOrDefault(key, 0.0);
     }
 
-    public void add(Nutrition other, double factor) {
-        for (Map.Entry<Integer, Double> entry : other.nutrients.entrySet()) {
-            int key = entry.getKey();
+    public void add(FoodNutrition other, double factor) {
+        for (Map.Entry<Integer, Double> entry : other.getAll().entrySet()) {
+            Integer key = entry.getKey();
             double value = entry.getValue() * factor;
             this.nutrients.put(key, this.getNutrient(key) + value);
         }
