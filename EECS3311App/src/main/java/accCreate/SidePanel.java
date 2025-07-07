@@ -64,5 +64,28 @@ public class SidePanel extends JPanel {
             }
         });
 		add(profileButton);
+
+		JButton cfgButton = new JButton("CFG");
+		cfgButton.setBounds(25, 100, 100, 25);
+		cfgButton.setBackground(Color.white);
+		cfgButton.addMouseListener(new MouseAdapter() {
+            // When the mouse enters the button, change color
+            public void mouseEntered(MouseEvent e) {
+                profileButton.setBackground(new Color(58, 162, 224));
+            }
+            
+            // When the mouse exits the button, reset the color
+            public void mouseExited(MouseEvent e) {
+                profileButton.setBackground(Color.white); 
+            }
+        });
+
+		cfgButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	main.switchToScreen("cfg");
+            	
+            }
+        });
+		add(cfgButton);
 	}
 }
