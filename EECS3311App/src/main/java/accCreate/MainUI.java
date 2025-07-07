@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import cfg.CFG;
+
 public class MainUI extends JFrame {
 	
 	private JPanel currentPanel;
@@ -14,6 +16,7 @@ public class MainUI extends JFrame {
 	private ProfileM profileM;
 	private ProfileI profileI;
 	private UserData currentUser;
+	private CFG cfg;
 	
 	
 	public MainUI(UserData currentUser) {
@@ -47,6 +50,10 @@ public class MainUI extends JFrame {
         	profileI = new ProfileI(this);
         	currentPanel = profileI;
         	add(profileI, BorderLayout.EAST);
+        } else if (screenName.equals("cfg")) {
+        	cfg = new CFG(this);
+        	currentPanel = cfg;
+        	add(cfg, BorderLayout.EAST);
         }
         revalidate();
         repaint();
