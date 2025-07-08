@@ -1,25 +1,18 @@
 package app;
 
 import javax.swing.*;
+
+import accCreate.MainUI;
+
 import java.util.List;
 
-public class Main {
-    public static void main(String[] args) {
+public class Log extends JTabbedPane {
+    public Log(MainUI main) {
         // Load food list from DB (once)
         List<Food> allFoods = MealFoodDAO.getAllFoods();
 
-        // Create the main application
-        JFrame frame = new JFrame("Diet Tracker");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // Switch between MealBuilder and Viewer
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.add("Log Meal", new MealBuilderPanel(allFoods));
-        tabs.add("View Meals", new MealViewerPanel());
-
-        frame.setContentPane(tabs);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        add("Log Meal", new MealBuilderPanel(allFoods));
+        add("View Meals", new MealViewerPanel());
     }
 }
