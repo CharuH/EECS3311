@@ -14,6 +14,7 @@ public class MealViewerPanel extends JPanel {
     private JButton loadButton, viewBreakdownButton;
     private DefaultListModel<Meal> mealListModel;
     private JList<Meal> mealList;
+    private String username;
 
     public MealViewerPanel() {
         this.setLayout(new BorderLayout());
