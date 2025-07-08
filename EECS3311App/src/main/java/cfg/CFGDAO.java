@@ -89,7 +89,6 @@ public class CFGDAO {
 			//gets food groups for foods in corresponding mealID 
             while (resultSet.next()) {
             	int food = resultSet.getInt("food_id");
-            	System.out.println("meal " + mealID + ":" + food);
             	double food_amount = resultSet.getDouble("quantity_in_grams");
             	//get food group for corresponding food id
             	int foodGroup = getFoodFG(food);
@@ -126,7 +125,6 @@ public class CFGDAO {
 			//gets food group for corresponding food id
             if (resultSet.next()) {
                foodGroup = resultSet.getInt("FoodGroupID");
-               System.out.println("Food Group: " + foodGroup);
             }
 		} catch (SQLException e) {
 			e.printStackTrace();
