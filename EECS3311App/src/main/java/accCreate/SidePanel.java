@@ -65,6 +65,29 @@ public class SidePanel extends JPanel {
         });
 		add(profileButton);
 
+		JButton logButton = new JButton("Log");
+		logButton.setBounds(25, 100, 100, 25);
+		logButton.setBackground(Color.white);
+		logButton.addMouseListener(new MouseAdapter() {
+            // When the mouse enters the button, change color
+            public void mouseEntered(MouseEvent e) {
+                profileButton.setBackground(new Color(58, 162, 224));
+            }
+            
+            // When the mouse exits the button, reset the color
+            public void mouseExited(MouseEvent e) {
+                profileButton.setBackground(Color.white); 
+            }
+        });
+
+		logButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	main.switchToScreen("log");
+            	
+            }
+        });
+		add(logButton);
+
 		JButton cfgButton = new JButton("CFG");
 		cfgButton.setBounds(25, 100, 100, 25);
 		cfgButton.setBackground(Color.white);
