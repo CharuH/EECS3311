@@ -1,11 +1,13 @@
 package accCreate;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.Log;
 import cfg.CFG;
 
 public class MainUI extends JFrame {
@@ -17,6 +19,7 @@ public class MainUI extends JFrame {
 	private ProfileI profileI;
 	private UserData currentUser;
 	private CFG cfg;
+	private Log log;
 	
 	
 	public MainUI(UserData currentUser) {
@@ -50,6 +53,10 @@ public class MainUI extends JFrame {
         	profileI = new ProfileI(this);
         	currentPanel = profileI;
         	add(profileI, BorderLayout.EAST);
+        } else if (screenName.equals("log")) {
+        	log = new Log(this);
+        	currentPanel = log;
+        	add(log, BorderLayout.EAST);
         } else if (screenName.equals("cfg")) {
         	cfg = new CFG(this);
         	currentPanel = cfg;
