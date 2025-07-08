@@ -89,7 +89,7 @@ public class SidePanel extends JPanel {
 		add(logButton);
 
 		JButton cfgButton = new JButton("CFG");
-		cfgButton.setBounds(25, 100, 100, 25);
+		cfgButton.setBounds(25, 135, 100, 25);
 		cfgButton.setBackground(Color.white);
 		cfgButton.addMouseListener(new MouseAdapter() {
             // When the mouse enters the button, change color
