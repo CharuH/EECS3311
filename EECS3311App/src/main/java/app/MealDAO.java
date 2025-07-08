@@ -9,13 +9,14 @@ import java.sql.Date;
 public class MealDAO {
 
     // Save a meal, return ID
-    public static int saveMeal(Meal meal) {
-        String insertMealSQL = "INSERT INTO meals (meal_date, meal_type) VALUES (?, ?)";
+    public static int saveMeal(Meal meal, String username) {
+        String insertMealSQL = "INSERT INTO meals (meal_date, meal_type, username) VALUES (?, ?, ?)";
         try (Connection conn = Dbfetch.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertMealSQL, Statement.RETURN_GENERATED_KEYS)) {
 
         	stmt.setDate(1, Date.valueOf(meal.getDate()));
             stmt.setString(2, meal.getType().name());
+            stmt.setString(3, username);
             stmt.executeUpdate();
 
             ResultSet keys = stmt.getGeneratedKeys();
@@ -23,7 +24,7 @@ public class MealDAO {
                 int mealId = keys.getInt(1);
 
                 
-                saveMealFoods(mealId, meal.getFoods());
+                saveMealFoods(mealId, meal.getFoods(), username);
                 return mealId;
             }
 
@@ -34,8 +35,8 @@ public class MealDAO {
     }
 
     // Save MealFoods for a given meal
-    private static void saveMealFoods(int mealId, List<MealFood> foods) {
-        String insertSQL = "INSERT INTO meal_foods (meal_id, food_id, quantity_in_grams) VALUES (?, ?, ?)";
+    private static void saveMealFoods(int mealId, List<MealFood> foods, String username) {
+        String insertSQL = "INSERT INTO meal_foods (meal_id, food_id, quantity_in_grams, username) VALUES (?, ?, ?, ?)";
         try (Connection conn = Dbfetch.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
@@ -43,6 +44,7 @@ public class MealDAO {
                 stmt.setInt(1, mealId);
                 stmt.setInt(2, mf.getFoodId());
                 stmt.setDouble(3, mf.getQuantity());
+                stmt.setString(4, username);
                 stmt.addBatch();
             }
             stmt.executeBatch();
