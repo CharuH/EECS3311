@@ -25,9 +25,11 @@ public class CFG extends JPanel {
 		double Protein = 0;
 		double Grain = 0;
 		double Mixed = 0;
+		String username = main.getUser().getUsername();
 		CFGDAO cfg = new CFGDAO();
-		double[] fg = cfg.getAverageMealFG(); 
+		double[] fg = cfg.getAverageMealFG(username); 
 		for (int x=1; x<=25; x++) {
+			//System.out.println("Food Group " + (x) + ": " + fg[x-1]);
 			if (x == 9 || x == 11) {
 				FruitVeg += fg[x-1];
 			} else if (x == 8 || x == 20) {

@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class CFGDAO {
 	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "java"; // Replace with correct username
-    private static String pass = "password"; // Replace with correct password
+    private static String user = "root"; // Replace with correct username
+    private static String pass = "adminRomeo"; // Replace with correct password
 
     private Connection connection = null;
     
-    public double[] getAverageMealFG() {
+    public double[] getAverageMealFG(String username) {
     	double[] FoodGroups = new double[25];
     	try {
     		//Connect to the database
@@ -21,7 +21,7 @@ public class CFGDAO {
 	    	int maxMealID = getMaxMealID();
 	    	//get total amount for each food group
 	    	for (int x=1; x <= maxMealID; x++) {
-	    		double[] temp = getMealFG(x);
+	    		double[] temp = getMealFG(x, username);
 	    		for (int y=0; y < 25; y++) {
 	    			FoodGroups[y] += temp[y];
 	    		}
@@ -73,22 +73,24 @@ public class CFGDAO {
 		return maxID;
 	}
     
-	public double[] getMealFG(int mealID) {
+	public double[] getMealFG(int mealID, String username) {
 		PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
 		double[] foodGroups = new double[25];
 		try {
 			// SQL query for reading data
-			String searchSQL = "SELECT * FROM meal_foods WHERE meal_id = ?";
+			String searchSQL = "SELECT * FROM meal_foods WHERE meal_id = ? AND username = ?";
 
 			//Create Statement and search parameters and execute query
 			preparedStatement = connection.prepareStatement(searchSQL);
 			preparedStatement.setInt(1, mealID);
+			preparedStatement.setString(2, username);
 			resultSet = preparedStatement.executeQuery();
 
 			//gets food groups for foods in corresponding mealID 
             while (resultSet.next()) {
             	int food = resultSet.getInt("food_id");
+            	//System.out.println("meal " + mealID + ":" + food);
             	double food_amount = resultSet.getDouble("quantity_in_grams");
             	//get food group for corresponding food id
             	int foodGroup = getFoodFG(food);
@@ -125,6 +127,7 @@ public class CFGDAO {
 			//gets food group for corresponding food id
             if (resultSet.next()) {
                foodGroup = resultSet.getInt("FoodGroupID");
+               //System.out.println("Food Group: " + foodGroup);
             }
 		} catch (SQLException e) {
 			e.printStackTrace();
