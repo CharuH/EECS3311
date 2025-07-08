@@ -12,7 +12,7 @@ import cfg.CFG;
 
 public class MainUI extends JFrame {
 	
-	private JPanel currentPanel;
+	private Component currentPanel;
 	private SidePanel sidePanel;
 	private Settings settings;
 	private ProfileM profileM;
