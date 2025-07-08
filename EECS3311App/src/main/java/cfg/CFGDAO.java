@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class CFGDAO {
 	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "username"; // Replace with correct username
+    private static String user = "java"; // Replace with correct username
     private static String pass = "password"; // Replace with correct password
 
     private Connection connection = null;
