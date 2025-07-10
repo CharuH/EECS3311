@@ -105,4 +105,33 @@ public class MealDAO {
         }
         return mealFoods;
     }
+
+    //Retrieve food between two dates
+    //For use case 5
+    public static List<Meal> getMealsByDates(LocalDate start, LocalDate end) {
+        List<Meal> meals = new ArrayList<>();
+        String query = "SELECT * FROM meals WHERE meal_date  BETWEEN ? AND ?";
+
+        try (Connection conn = Dbfetch.getConnection()){
+        	PreparedStatement stmt = conn.prepareStatement(query);
+        	
+        	stmt.setDate(1, Date.valueOf(start));
+        	stmt.setDate(2, Date.valueOf(end));
+        	
+        	ResultSet rs = stmt.executeQuery(query);
+        	while (rs.next()) {
+        		int id = rs.getInt("id");
+        		@SuppressWarnings("deprecation")
+				LocalDate date = LocalDate.of(rs.getDate("date").getYear(), rs.getDate("date").getMonth(), rs.getDate("date").getDay());
+        		MealType type = MealType.valueOf(rs.getString("meal_type"));
+        		
+        		Meal meal = new Meal(id, date, type);
+        		meals.add(meal);
+        	}
+        	
+        } catch (SQLException e) {
+        	e.printStackTrace();
+        }
+		return meals;
+    }
 }
