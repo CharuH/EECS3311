@@ -110,5 +110,28 @@ public class SidePanel extends JPanel {
             }
         });
 		add(cfgButton);
+
+		JButton nutriButton = new JButton("Nutrition");
+		nutriButton.setBounds(25, 170, 100, 25);
+		nutriButton.setBackground(Color.white);
+		nutriButton.addMouseListener(new MouseAdapter() {
+            // When the mouse enters the button, change color
+            public void mouseEntered(MouseEvent e) {
+                nutriButton.setBackground(new Color(58, 162, 224));
+            }
+            
+            // When the mouse exits the button, reset the color
+            public void mouseExited(MouseEvent e) {
+                nutriButton.setBackground(Color.white); 
+            }
+        });
+
+		nutriButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	main.switchToScreen("nutrition");
+            	
+            }
+        });
+		add(nutriButton);
 	}
 }
