@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import app.Log;
 import cfg.CFG;
+import dailyNutrition.DailyNutrition;
 
 public class MainUI extends JFrame {
 	
@@ -20,7 +21,8 @@ public class MainUI extends JFrame {
 	private UserData currentUser;
 	private CFG cfg;
 	private Log log;
-	
+	private DailyNutrition nutrition;
+
 	
 	public MainUI(UserData currentUser) {
 		setTitle("Nutrition Tracker");
@@ -61,6 +63,10 @@ public class MainUI extends JFrame {
         	cfg = new CFG(this);
         	currentPanel = cfg;
         	add(cfg, BorderLayout.EAST);
+        }  else if (screenName.equals("nutrition")) {
+        	nutrition = new DailyNutrition(this);
+        	currentPanel = nutrition;
+        	add(nutrition, BorderLayout.EAST);
         }
         revalidate();
         repaint();
