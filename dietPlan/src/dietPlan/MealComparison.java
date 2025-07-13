@@ -10,14 +10,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import java.time.LocalDate;
 
 public class MealComparisonPanel extends JPanel {
     private List<Food> allFoods;
     private JPanel mainContentPanel;
     private CardLayout cardLayout;
-    private List<MealItem> originalMeal;
-    private List<MealItem> modifiedMeal;
+    private Meal originalMeal;
+    private Meal modifiedMeal;
     private String currentView = "meal"; // "meal" or "nutrients"
+    private Set<Integer> replacedFoodIds; // Track which foods were replaced
 
     // Colors for visual indicators
     private static final Color ORIGINAL_COLOR = new Color(239, 68, 68); // Red
@@ -28,23 +32,37 @@ public class MealComparisonPanel extends JPanel {
 
     public MealComparisonPanel(List<Food> allFoods) {
         this.allFoods = allFoods;
+        this.replacedFoodIds = new HashSet<>();
         initializeData();
         setupUI();
     }
 
     private void initializeData() {
-        // Sample data - replace with actual meal data from your system
-        originalMeal = new ArrayList<>();
-        originalMeal.add(new MealItem("White Toast (2 slices)", 160, 2.4, 6.0, 30.0, 2.0, false));
-        originalMeal.add(new MealItem("Butter (1 tbsp)", 100, 0, 0.1, 0, 11.0, false));
-        originalMeal.add(new MealItem("Orange Juice (1 cup)", 110, 0.2, 2.0, 26.0, 0.2, false));
-        originalMeal.add(new MealItem("Scrambled Eggs (2 eggs)", 180, 0, 12.0, 2.0, 14.0, false));
+        // Initialize with sample meals using your existing structure
+        createSampleMeals();
+    }
 
-        modifiedMeal = new ArrayList<>();
-        modifiedMeal.add(new MealItem("Whole Grain Toast (2 slices)", 140, 6.0, 8.0, 26.0, 2.0, true));
-        modifiedMeal.add(new MealItem("Avocado Spread (1/2 avocado)", 120, 5.0, 2.0, 6.0, 11.0, true));
-        modifiedMeal.add(new MealItem("Fresh Orange (1 medium)", 60, 3.0, 1.2, 15.0, 0.2, true));
-        modifiedMeal.add(new MealItem("Scrambled Eggs (2 eggs)", 180, 0, 12.0, 2.0, 14.0, false));
+    private void createSampleMeals() {
+        // Create sample original meal
+        originalMeal = new Meal(1, LocalDate.now(), MealType.BREAKFAST);
+
+        // Add sample foods to original meal (you'll need to create these MealFood objects)
+        originalMeal.addFood(new MealFood(1, 60.0, "White Bread Toast")); // 60g
+        originalMeal.addFood(new MealFood(2, 10.0, "Butter")); // 10g
+        originalMeal.addFood(new MealFood(3, 200.0, "Regular Milk")); // 200ml
+
+        // Create sample modified meal
+        modifiedMeal = new Meal(2, LocalDate.now(), MealType.BREAKFAST);
+
+        // Add improved foods to modified meal
+        modifiedMeal.addFood(new MealFood(4, 60.0, "Whole Wheat Bread Toast")); // 60g
+        modifiedMeal.addFood(new MealFood(5, 15.0, "Avocado Spread")); // 15g
+        modifiedMeal.addFood(new MealFood(6, 200.0, "Almond Milk")); // 200ml
+
+        // Track which foods were replaced (by food ID)
+        replacedFoodIds.add(4); // Whole wheat bread replaces white bread
+        replacedFoodIds.add(5); // Avocado replaces butter
+        replacedFoodIds.add(6); // Almond milk replaces regular milk
     }
 
     private void setupUI() {
@@ -54,9 +72,12 @@ public class MealComparisonPanel extends JPanel {
         JPanel headerPanel = createHeaderPanel();
         add(headerPanel, BorderLayout.NORTH);
 
+        // Create main panel with toggle and content
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
         // View toggle buttons
         JPanel togglePanel = createTogglePanel();
-        add(togglePanel, BorderLayout.CENTER);
+        mainPanel.add(togglePanel, BorderLayout.NORTH);
 
         // Main content with CardLayout
         cardLayout = new CardLayout();
@@ -65,7 +86,8 @@ public class MealComparisonPanel extends JPanel {
         mainContentPanel.add(createMealComparisonView(), "meal");
         mainContentPanel.add(createNutrientAnalysisView(), "nutrients");
 
-        add(mainContentPanel, BorderLayout.SOUTH);
+        mainPanel.add(mainContentPanel, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private JPanel createHeaderPanel() {
@@ -135,10 +157,12 @@ public class MealComparisonPanel extends JPanel {
         mealPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Original meal panel
-        JPanel originalPanel = createMealPanel("Original Breakfast", originalMeal, ORIGINAL_COLOR, false);
+        JPanel originalPanel = createMealPanel("Original " + getMealTypeString(originalMeal.getType()),
+                originalMeal, ORIGINAL_COLOR, false);
 
         // Modified meal panel
-        JPanel modifiedPanel = createMealPanel("Breakfast (Optimized)", modifiedMeal, MODIFIED_COLOR, true);
+        JPanel modifiedPanel = createMealPanel(getMealTypeString(modifiedMeal.getType()) + " (Optimized)",
+                modifiedMeal, MODIFIED_COLOR, true);
 
         mealPanel.add(originalPanel);
         mealPanel.add(modifiedPanel);
@@ -146,7 +170,12 @@ public class MealComparisonPanel extends JPanel {
         return mealPanel;
     }
 
-    private JPanel createMealPanel(String title, List<MealItem> meals, Color titleColor, boolean showReplacements) {
+    private String getMealTypeString(MealType type) {
+        if (type == null) return "Meal";
+        return type.toString().charAt(0) + type.toString().substring(1).toLowerCase();
+    }
+
+    private JPanel createMealPanel(String title, Meal meal, Color titleColor, boolean showReplacements) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createRaisedBorder());
         panel.setBackground(Color.WHITE);
@@ -170,16 +199,16 @@ public class MealComparisonPanel extends JPanel {
         mealsPanel.setLayout(new BoxLayout(mealsPanel, BoxLayout.Y_AXIS));
         mealsPanel.setBackground(Color.WHITE);
 
-        double totalCalories = 0, totalFiber = 0, totalProtein = 0;
+        // Use the existing getCalories() method from Meal class
+        double totalCalories = meal.getCalories();
+        double totalFiber = calculateTotalFiber(meal);
+        double totalProtein = calculateTotalProtein(meal);
 
-        for (MealItem meal : meals) {
-            JPanel mealItemPanel = createMealItemPanel(meal, showReplacements);
+        // Display each food in the meal using getFoods() method
+        for (MealFood mealFood : meal.getFoods()) {
+            JPanel mealItemPanel = createMealFoodPanel(mealFood, showReplacements);
             mealsPanel.add(mealItemPanel);
             mealsPanel.add(Box.createVerticalStrut(5));
-
-            totalCalories += meal.calories;
-            totalFiber += meal.fiber;
-            totalProtein += meal.protein;
         }
 
         // Totals
@@ -199,11 +228,34 @@ public class MealComparisonPanel extends JPanel {
         return panel;
     }
 
-    private JPanel createMealItemPanel(MealItem meal, boolean showReplacements) {
+    // Helper methods to calculate nutrients from MealFood
+    private double calculateTotalFiber(Meal meal) {
+        double total = 0.0;
+        for (MealFood mealFood : meal.getFoods()) {
+            // Get fiber data from CalorieDAO or similar data source
+            // For now, using placeholder values - you'll need to implement this
+            total += getFiberFromMealFood(mealFood);
+        }
+        return total;
+    }
+
+    private double calculateTotalProtein(Meal meal) {
+        double total = 0.0;
+        for (MealFood mealFood : meal.getFoods()) {
+            // Get protein data from CalorieDAO or similar data source
+            total += getProteinFromMealFood(mealFood);
+        }
+        return total;
+    }
+
+    private JPanel createMealFoodPanel(MealFood mealFood, boolean showReplacements) {
         JPanel itemPanel = new JPanel(new BorderLayout());
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        if (showReplacements && meal.isReplaced) {
+        // Check if this food was replaced using the foodId from MealFood
+        boolean isReplaced = checkIfReplaced(mealFood, showReplacements);
+
+        if (showReplacements && isReplaced) {
             itemPanel.setBackground(REPLACED_COLOR);
             itemPanel.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(MODIFIED_COLOR, 2),
@@ -213,14 +265,21 @@ public class MealComparisonPanel extends JPanel {
             itemPanel.setBackground(new Color(249, 250, 251)); // Light gray
         }
 
-        JLabel nameLabel = new JLabel(meal.name);
+        // Get food name using getName() method from Food class
+        String foodName = getFoodDisplayName(mealFood);
+        // Use existing returnCalories() method from MealFood
+        double calories = mealFood.returnCalories();
+        double fiber = getFiberFromMealFood(mealFood);
+        double protein = getProteinFromMealFood(mealFood);
+
+        JLabel nameLabel = new JLabel(foodName);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        if (showReplacements && meal.isReplaced) {
+        if (showReplacements && isReplaced) {
             nameLabel.setForeground(new Color(21, 128, 61)); // Dark green
         }
 
         JLabel detailsLabel = new JLabel(String.format("%.0f kcal • %.1fg fiber • %.1fg protein",
-                meal.calories, meal.fiber, meal.protein));
+                calories, fiber, protein));
         detailsLabel.setFont(new Font("Arial", Font.PLAIN, 11));
         detailsLabel.setForeground(Color.GRAY);
 
@@ -231,23 +290,77 @@ public class MealComparisonPanel extends JPanel {
 
         itemPanel.add(textPanel, BorderLayout.CENTER);
 
-        if (showReplacements && meal.isReplaced) {
+        if (showReplacements && isReplaced) {
             JLabel checkLabel = new JLabel("✓");
             checkLabel.setForeground(MODIFIED_COLOR);
             checkLabel.setFont(new Font("Arial", Font.BOLD, 14));
             itemPanel.add(checkLabel, BorderLayout.EAST);
 
             // Add tooltip functionality
-            itemPanel.setToolTipText(getTooltipText(meal));
+            itemPanel.setToolTipText(getMealFoodTooltipText(mealFood));
         }
 
         return itemPanel;
     }
 
-    private String getTooltipText(MealItem meal) {
-        // Find corresponding original meal item for comparison
-        // This is simplified - you'd implement proper matching logic
-        return "Nutritional improvements: Higher fiber, better nutrients";
+    // Helper methods integrated with your existing classes
+    private boolean checkIfReplaced(MealFood mealFood, boolean showReplacements) {
+        // Use the foodId from MealFood to check if it was replaced
+        return showReplacements && replacedFoodIds.contains(mealFood.getFoodId());
+    }
+
+    private String getFoodDisplayName(MealFood mealFood) {
+        // Use getName() method from Food class and getQuantity() from MealFood
+        return mealFood.getName() + " (" + String.format("%.0f", mealFood.getQuantity()) + "g)";
+    }
+
+    private double getFiberFromMealFood(MealFood mealFood) {
+        // You'll need to extend CalorieDAO or create similar method for fiber
+        // For now, using sample values based on food ID
+        double fiberPer100g = getFiberByFoodId(mealFood.getFoodId());
+        return (fiberPer100g / 100.0) * mealFood.getQuantity();
+    }
+
+    private double getProteinFromMealFood(MealFood mealFood) {
+        // Similar to fiber, you'll need to extend CalorieDAO or create similar method
+        double proteinPer100g = getProteinByFoodId(mealFood.getFoodId());
+        return (proteinPer100g / 100.0) * mealFood.getQuantity();
+    }
+
+    // Sample methods - you'll need to implement these similar to CalorieDAO
+    private double getFiberByFoodId(int foodId) {
+        // Sample fiber values per 100g
+        switch (foodId) {
+            case 1: return 2.1; // White bread
+            case 2: return 0.0; // Butter
+            case 3: return 0.0; // Regular milk
+            case 4: return 4.2; // Whole wheat bread
+            case 5: return 6.7; // Avocado
+            case 6: return 0.6; // Almond milk
+            default: return 0.0;
+        }
+    }
+
+    private double getProteinByFoodId(int foodId) {
+        // Sample protein values per 100g
+        switch (foodId) {
+            case 1: return 8.7; // White bread
+            case 2: return 0.1; // Butter
+            case 3: return 3.2; // Regular milk
+            case 4: return 10.2; // Whole wheat bread
+            case 5: return 2.0; // Avocado
+            case 6: return 0.5; // Almond milk
+            default: return 0.0;
+        }
+    }
+
+    private String getMealFoodTooltipText(MealFood mealFood) {
+        double calories = mealFood.returnCalories();
+        double fiber = getFiberFromMealFood(mealFood);
+        double protein = getProteinFromMealFood(mealFood);
+
+        return String.format("<html>%s (%.0fg)<br/>Calories: %.0f kcal<br/>Fiber: %.1fg<br/>Protein: %.1fg<br/>✓ Healthier alternative</html>",
+                mealFood.getName(), mealFood.getQuantity(), calories, fiber, protein);
     }
 
     private JPanel createNutrientAnalysisView() {
@@ -258,7 +371,7 @@ public class MealComparisonPanel extends JPanel {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-        // Calculate totals
+        // Calculate totals using existing Meal methods
         NutrientTotals originalTotals = calculateTotals(originalMeal);
         NutrientTotals modifiedTotals = calculateTotals(modifiedMeal);
 
@@ -268,8 +381,6 @@ public class MealComparisonPanel extends JPanel {
         addNutrientCard(gridPanel, "Calories", originalTotals.calories, modifiedTotals.calories, "kcal", "reduce");
         addNutrientCard(gridPanel, "Fiber", originalTotals.fiber, modifiedTotals.fiber, "g", "increase");
         addNutrientCard(gridPanel, "Protein", originalTotals.protein, modifiedTotals.protein, "g", "maintain");
-        addNutrientCard(gridPanel, "Carbohydrates", originalTotals.carbs, modifiedTotals.carbs, "g", "reduce");
-        addNutrientCard(gridPanel, "Fat", originalTotals.fat, modifiedTotals.fat, "g", "maintain");
 
         // Summary panel
         JPanel summaryPanel = createSummaryPanel(originalTotals, modifiedTotals);
@@ -294,7 +405,7 @@ public class MealComparisonPanel extends JPanel {
         content.add(new JLabel(String.format("After: %.1f %s", modified, unit)));
 
         double change = modified - original;
-        double changePercent = (change / original) * 100;
+        double changePercent = original != 0 ? (change / original) * 100 : 0;
 
         JLabel changeLabel = new JLabel(String.format("Change: %+.1f %s", change, unit));
         JLabel percentLabel = new JLabel(String.format("(%.1f%%)", changePercent));
@@ -336,44 +447,61 @@ public class MealComparisonPanel extends JPanel {
         double fiberChange = modified.fiber - original.fiber;
         double proteinChange = modified.protein - original.protein;
 
-        content.add(new JLabel(String.format("✓ Reduced calories by %.0f kcal", calorieChange)));
-        content.add(new JLabel(String.format("✓ Increased fiber by %.1fg", fiberChange)));
-        content.add(new JLabel(String.format("✓ Maintained protein levels (+%.1fg)", proteinChange)));
+        content.add(new JLabel(String.format("✓ Calories: %.0f kcal (%s)",
+                Math.abs(calorieChange), calorieChange < 0 ? "reduced" : "increased")));
+        content.add(new JLabel(String.format("✓ Fiber: +%.1fg (increased)", fiberChange)));
+        content.add(new JLabel(String.format("✓ Protein: %+.1fg", proteinChange)));
 
         summaryPanel.add(content, BorderLayout.CENTER);
         return summaryPanel;
     }
 
-    private NutrientTotals calculateTotals(List<MealItem> meals) {
+    private NutrientTotals calculateTotals(Meal meal) {
         NutrientTotals totals = new NutrientTotals();
-        for (MealItem meal : meals) {
-            totals.calories += meal.calories;
-            totals.fiber += meal.fiber;
-            totals.protein += meal.protein;
-            totals.carbs += meal.carbs;
-            totals.fat += meal.fat;
+
+        // Use the existing getCalories() method from Meal class
+        totals.calories = meal.getCalories();
+
+        // Calculate other nutrients by iterating through MealFood items
+        for (MealFood mealFood : meal.getFoods()) {
+            totals.fiber += getFiberFromMealFood(mealFood);
+            totals.protein += getProteinFromMealFood(mealFood);
         }
+
         return totals;
     }
 
-    // Helper classes
-    private static class MealItem {
-        String name;
-        double calories, fiber, protein, carbs, fat;
-        boolean isReplaced;
+    // Method to set meals for comparison (called from other parts of your application)
+    public void setMealsForComparison(Meal original, Meal modified, Set<Integer> replacedFoodIds) {
+        this.originalMeal = original;
+        this.modifiedMeal = modified;
+        this.replacedFoodIds = replacedFoodIds != null ? replacedFoodIds : new HashSet<>();
 
-        MealItem(String name, double calories, double fiber, double protein, double carbs, double fat, boolean isReplaced) {
-            this.name = name;
-            this.calories = calories;
-            this.fiber = fiber;
-            this.protein = protein;
-            this.carbs = carbs;
-            this.fat = fat;
-            this.isReplaced = isReplaced;
-        }
+        // Refresh the UI to show the new meals
+        refreshUI();
     }
 
+    // Overloaded method for backward compatibility
+    public void setMealsForComparison(Meal original, Meal modified) {
+        setMealsForComparison(original, modified, null);
+    }
+
+    private void refreshUI() {
+        // Remove existing content and recreate with new meal data
+        mainContentPanel.removeAll();
+        mainContentPanel.add(createMealComparisonView(), "meal");
+        mainContentPanel.add(createNutrientAnalysisView(), "nutrients");
+
+        // Show the current view
+        cardLayout.show(mainContentPanel, currentView);
+
+        // Refresh the display
+        revalidate();
+        repaint();
+    }
+
+    // Helper classes
     private static class NutrientTotals {
-        double calories = 0, fiber = 0, protein = 0, carbs = 0, fat = 0;
+        double calories = 0, fiber = 0, protein = 0;
     }
 }
