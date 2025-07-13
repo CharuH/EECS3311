@@ -32,7 +32,6 @@ import com.toedter.calendar.JDateChooser;
 import accCreate.MainUI;
 import chart.BarGraphChart;
 import chart.ChartContext;
-import chart.PieChartStrategy;
 
 public class DailyNutrition extends JPanel {
 
