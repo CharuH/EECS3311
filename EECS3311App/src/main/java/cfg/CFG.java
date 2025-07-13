@@ -70,12 +70,8 @@ public class CFG extends JPanel {
         context2.setChartType(new PieChartStrategy());
 
         //get chart
-        JFreeChart chart1 = context1.getChart(data1);
-        JFreeChart chart2 = context2.getChart(data2);
-
-        //chart title
-        JLabel label1 = new JLabel("Average Meal", SwingConstants.CENTER);
-        JLabel label2 = new JLabel("CFG Reccommended Meal", SwingConstants.CENTER);
+        JFreeChart chart1 = context1.getChart(data1, "Average Meal", null, null);
+        JFreeChart chart2 = context2.getChart(data2, "CFG Recommended Meal", null, null);
         
         //create chart
         ChartPanel chartPanel1 = new ChartPanel(chart1);
@@ -84,23 +80,9 @@ public class CFG extends JPanel {
         chartPanel1.setPreferredSize(preferredSize);
         chartPanel2.setPreferredSize(preferredSize);
   
-        //add label 1
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(label1, gbc);
-        
-        //add label 2
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;  
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(label2, gbc);
-
         //add chart 1
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.gridwidth = 1;  
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
@@ -109,7 +91,7 @@ public class CFG extends JPanel {
 
         //add chart 2
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.gridwidth = 1;  
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
