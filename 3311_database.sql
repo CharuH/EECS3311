@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `dailyrecommended`;
 CREATE TABLE `dailyrecommended` (
   `ageMin` double DEFAULT NULL,
   `ageMax` double DEFAULT NULL,
-  `gender` text,
+  `sex` text,
   `VitaminD` double DEFAULT NULL,
   `VitaminK` double DEFAULT NULL,
   `VitaminC` double DEFAULT NULL,
@@ -461,4 +461,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-11 22:28:59
+-- Dump completed on 2025-07-12 20:25:04
