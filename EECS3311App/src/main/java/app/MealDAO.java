@@ -103,4 +103,34 @@ public class MealDAO {
         }
         return mealFoods;
     }
+
+	public static Meal getMealById(int mealId) {
+		
+		    String query = "SELECT * FROM meals WHERE id = ?";
+
+		    try (Connection conn = Dbfetch.getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+		        stmt.setInt(1, mealId);
+		        ResultSet rs = stmt.executeQuery();
+
+		        if (rs.next()) {
+		            LocalDate mealDate = rs.getDate("meal_date").toLocalDate();
+		            MealType type = MealType.valueOf(rs.getString("meal_type"));
+
+		            Meal meal = new Meal(mealId, mealDate, type);
+
+		            List<MealFood> foods = getMealFoodsByMealId(mealId);
+		            foods.forEach(meal::AddCourse);
+
+		            return meal;
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace(); // Optional: replace with logger
+		    }
+
+		    return null; // Not found or failed
+		
+	}
 }

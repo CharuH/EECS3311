@@ -2,7 +2,7 @@ package app;
 
 public class Food {
 	 protected int foodId;          
-	 private String name;
+	 public String name;
 
 	    
 	    

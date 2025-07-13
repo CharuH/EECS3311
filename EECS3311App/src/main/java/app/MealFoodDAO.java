@@ -61,6 +61,36 @@ public class MealFoodDAO {
 		    }
 		    return foods;
 		}
+	    
+	    public static int getFoodGroupID(int foodID) {
+	        String sql = "SELECT FoodGroupID FROM food_name WHERE FoodID = ?";
+	        
+	        try (Connection conn = Dbfetch.getConnection();
+	             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	            
+	            stmt.setInt(1, foodID);
+	            ResultSet rs = stmt.executeQuery();
+	            
+	            if (rs.next()) {
+	                return rs.getInt("FoodGroupID");
+	            }
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();  // or use proper logging
+	        }
+
+	        return -1;  // return -1 if not found or error
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+		
 
 		
 	    
