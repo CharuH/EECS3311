@@ -6,18 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CFGDAO {
-	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "java"; // Replace with correct username
-    private static String pass = "password"; // Replace with correct password
+import app.Dbfetch;
 
+public class CFGDAO {
     private Connection connection = null;
     
     public double[] getAverageMealFG(String username) {
     	double[] FoodGroups = new double[25];
     	try {
     		//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 	    	int maxMealID = getMaxMealID();
 	    	//get total amount for each food group
 	    	for (int x=1; x <= maxMealID; x++) {
