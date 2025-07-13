@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
 
 public class ComparisonChart {
