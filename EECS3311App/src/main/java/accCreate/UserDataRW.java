@@ -7,11 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class UserDataRW {
-	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "java"; // Replace with correct username
-    private static String pass = "password"; // Replace with correct password
+import app.Dbfetch;
 
+public class UserDataRW {
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
@@ -28,7 +26,7 @@ public class UserDataRW {
                 
         try {
             //Connect to database
-            connection = DriverManager.getConnection(url, user, pass);
+            connection = Dbfetch.getConnection();
             
 
             // SQL query (inserting data)
@@ -75,7 +73,7 @@ public class UserDataRW {
                 
         try {
             //Connect to database
-            connection = DriverManager.getConnection(url, user, pass);
+            connection = Dbfetch.getConnection();
             
 
             // SQL query (inserting data)
@@ -113,7 +111,7 @@ public class UserDataRW {
 	public boolean searchUsername(String usernameInp) {
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 
 			// SQL query for reading data
 			String searchSQL = "SELECT * FROM accountinfo WHERE Username = ?";
@@ -147,7 +145,7 @@ public class UserDataRW {
 	public boolean searchUser(String usernameInp, String passwordInp) {
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 
 			// SQL query for reading data
 			String searchSQL = "SELECT * FROM accountinfo WHERE Username = ? AND Password = ?";
@@ -184,7 +182,7 @@ public class UserDataRW {
 		
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 
 			// SQL query for reading data
 			String searchSQL = "SELECT * FROM accountinfo WHERE Username = ? AND Password = ?";
