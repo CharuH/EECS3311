@@ -13,11 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class DailyNutritionDAO {
-	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "java"; // Replace with correct username
-    private static String pass = "password"; // Replace with correct password
+import app.Dbfetch;
 
+public class DailyNutritionDAO {
     private Connection connection = null;
 
 	public HashMap<Integer, Double> getNutritionAverage(LocalDate start, LocalDate end, String username) {
@@ -28,7 +26,7 @@ public class DailyNutritionDAO {
 		long numDays = ChronoUnit.DAYS.between(start, end) + 1;
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 
 			// SQL query for reading data
 			String searchSQL = "SELECT * FROM meals WHERE meal_date BETWEEN ? AND ? AND username = ?";
@@ -156,7 +154,7 @@ public class DailyNutritionDAO {
 		HashMap<Nutrient, Double> nutritionName = new HashMap<>();
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 			for (Map.Entry<Integer, Double> entry : nutritionID.entrySet()) {
 		    	   Nutrient nutrient = getNutrient(entry.getKey());
 		    	   double nutrientValue = entry.getValue();
@@ -223,7 +221,7 @@ public class DailyNutritionDAO {
 	    HashMap<Nutrient, Double> recMap = new HashMap<>();
 		try {
 			//Connect to the database
-			connection = DriverManager.getConnection(url, user, pass);
+			connection = Dbfetch.getConnection();
 
 			// SQL query for reading data and search parameters
 			if (maxAge == 0.57 || maxAge == 0.9 || maxAge == 3 || maxAge == 8) {
