@@ -71,12 +71,12 @@ public class SidePanel extends JPanel {
 		logButton.addMouseListener(new MouseAdapter() {
             // When the mouse enters the button, change color
             public void mouseEntered(MouseEvent e) {
-                profileButton.setBackground(new Color(58, 162, 224));
+                logButton.setBackground(new Color(58, 162, 224));
             }
             
             // When the mouse exits the button, reset the color
             public void mouseExited(MouseEvent e) {
-                profileButton.setBackground(Color.white); 
+                logButton.setBackground(Color.white); 
             }
         });
 
@@ -94,12 +94,12 @@ public class SidePanel extends JPanel {
 		cfgButton.addMouseListener(new MouseAdapter() {
             // When the mouse enters the button, change color
             public void mouseEntered(MouseEvent e) {
-                profileButton.setBackground(new Color(58, 162, 224));
+                cfgButton.setBackground(new Color(58, 162, 224));
             }
             
             // When the mouse exits the button, reset the color
             public void mouseExited(MouseEvent e) {
-                profileButton.setBackground(Color.white); 
+                cfgButton.setBackground(Color.white); 
             }
         });
 
