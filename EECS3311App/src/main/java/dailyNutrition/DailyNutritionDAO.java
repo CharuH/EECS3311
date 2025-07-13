@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 
 public class DailyNutritionDAO {
 	private static String url = "jdbc:mysql://localhost:3306/3311_database"; // Replace with correct DB
-    private static String user = "root"; // Replace with correct username
-    private static String pass = "adminRomeo"; // Replace with correct password
+    private static String user = "java"; // Replace with correct username
+    private static String pass = "password"; // Replace with correct password
 
     private Connection connection = null;
 
