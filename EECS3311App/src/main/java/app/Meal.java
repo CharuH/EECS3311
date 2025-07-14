@@ -100,12 +100,10 @@ public class Meal {
 	    sb.append("Foods:\n");
 
 	    for (MealFood food : foods) {
-	        sb.append("  - ").append(food.toString()).append("  -").append(food.getQuantity()).append("\n");
+	        sb.append("  - ").append(food.toString()).append(":  ").append(food.getQuantity()).append("g").append("\n");
 	    }
 
-	    sb.append("Total Nutrition:\n");
-	    sb.append(getNutrition().toString()); 
-
+	    
 	    return sb.toString();
 	}
 
