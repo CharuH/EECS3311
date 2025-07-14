@@ -177,7 +177,7 @@ public class MealComparisonPanel extends JPanel {
 
     private JPanel createMealPanel(String title, Meal meal, Color titleColor, boolean showReplacements) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createRaisedBorder());
+        panel.setBorder(BorderFactory.createCompoundBorder());
         panel.setBackground(Color.WHITE);
 
         // Title with colored indicator
