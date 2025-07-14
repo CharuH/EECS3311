@@ -268,6 +268,10 @@ public class ProfileI extends JPanel {
 					month = Integer.parseInt(monthField.getText());
 					day = Integer.parseInt(dayField.getText());
 					dob = LocalDate.of(year, month, day);
+					LocalDate current = LocalDate.now();
+					if (dob.isAfter(current)) {
+						throw new Exception();
+					}
 				} catch (Exception ex1) {
 					error = true;
 					ErrorWindow errorDoB = new ErrorWindow("Invalid Date of Birth");
