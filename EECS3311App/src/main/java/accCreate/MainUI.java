@@ -1,20 +1,28 @@
 package accCreate;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.Log;
+import cfg.CFG;
+import dailyNutrition.DailyNutrition;
+
 public class MainUI extends JFrame {
 	
-	private JPanel currentPanel;
+	private Component currentPanel;
 	private SidePanel sidePanel;
 	private Settings settings;
 	private ProfileM profileM;
 	private ProfileI profileI;
 	private UserData currentUser;
-	
+	private CFG cfg;
+	private Log log;
+	private DailyNutrition nutrition;
+
 	
 	public MainUI(UserData currentUser) {
 		setTitle("Nutrition Tracker");
@@ -47,6 +55,18 @@ public class MainUI extends JFrame {
         	profileI = new ProfileI(this);
         	currentPanel = profileI;
         	add(profileI, BorderLayout.EAST);
+        } else if (screenName.equals("log")) {
+        	log = new Log(this);
+        	currentPanel = log;
+        	add(log, BorderLayout.EAST);
+        } else if (screenName.equals("cfg")) {
+        	cfg = new CFG(this);
+        	currentPanel = cfg;
+        	add(cfg, BorderLayout.EAST);
+        }  else if (screenName.equals("nutrition")) {
+        	nutrition = new DailyNutrition(this);
+        	currentPanel = nutrition;
+        	add(nutrition, BorderLayout.EAST);
         }
         revalidate();
         repaint();

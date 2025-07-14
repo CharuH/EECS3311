@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class MealFoodDAO {
-		//current implementation actually creates the objects inside DAO, will change after refactoring
+		
 	    public static MealFood getMealFood(int id, double qty) {
 	    	String query = "SELECT * FROM `food_name` WHERE FoodID = ?";
 	        try (Connection conn = Dbfetch.getConnection();

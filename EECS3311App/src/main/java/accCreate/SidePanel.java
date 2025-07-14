@@ -20,39 +20,14 @@ public class SidePanel extends JPanel {
 		JButton settingsButton = new JButton("Settings");
 		settingsButton.setBounds(25, 30, 100, 25);
 		settingsButton.setBackground(Color.white);
-		settingsButton.addMouseListener(new MouseAdapter() {
-            // When the mouse enters the button, change color
-            public void mouseEntered(MouseEvent e) {
-                settingsButton.setBackground(new Color(58, 162, 224));
-            }
-            
-            // When the mouse exits the button, reset the color
-            public void mouseExited(MouseEvent e) {
-                settingsButton.setBackground(Color.white);
-            }
-        });
-		settingsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	main.switchToScreen("settings");
-            }
-        });
+		buttonHover(settingsButton);
+		buttonClicked(settingsButton, "settings", main);
 		add(settingsButton);
 		
 		JButton profileButton = new JButton("Profile");
 		profileButton.setBounds(25, 65, 100, 25);
 		profileButton.setBackground(Color.white);
-		profileButton.addMouseListener(new MouseAdapter() {
-            // When the mouse enters the button, change color
-            public void mouseEntered(MouseEvent e) {
-                profileButton.setBackground(new Color(58, 162, 224));
-            }
-            
-            // When the mouse exits the button, reset the color
-            public void mouseExited(MouseEvent e) {
-                profileButton.setBackground(Color.white); 
-            }
-        });
-
+		buttonHover(profileButton);
 		profileButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	UserData data = main.getUser();
@@ -64,5 +39,48 @@ public class SidePanel extends JPanel {
             }
         });
 		add(profileButton);
+
+		JButton logButton = new JButton("Log");
+		logButton.setBounds(25, 100, 100, 25);
+		logButton.setBackground(Color.white);
+		buttonHover(logButton);
+		buttonClicked(logButton, "log", main);
+		add(logButton);
+
+		JButton cfgButton = new JButton("CFG");
+		cfgButton.setBounds(25, 135, 100, 25);
+		cfgButton.setBackground(Color.white);
+		buttonHover(cfgButton);
+		buttonClicked(cfgButton, "cfg", main);
+		add(cfgButton);
+
+		JButton nutriButton = new JButton("Nutrition");
+		nutriButton.setBounds(25, 170, 100, 25);
+		nutriButton.setBackground(Color.white);
+		buttonHover(nutriButton);
+		buttonClicked(nutriButton, "nutrition", main);
+		add(nutriButton);
+	}
+	
+	private void buttonHover(JButton button) {
+		button.addMouseListener(new MouseAdapter() {
+            // When the mouse enters the button, change color
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(new Color(58, 162, 224));
+            }
+            
+            // When the mouse exits the button, reset the color
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(Color.white); 
+            }
+        });
+	}
+	
+	private void buttonClicked(JButton button, String screen, MainUI main) {
+		button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	main.switchToScreen(screen);
+            }
+        });
 	}
 }

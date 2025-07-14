@@ -41,6 +41,10 @@ public class MealFood extends Food{
         return clone;
     }
     
+    public String toString() {
+    	return name;
+    }
+    
     
     
     

@@ -10,6 +10,8 @@ import java.util.List;
 
 
 public class NutritionDAO {
+	
+	
 	public static FoodNutrition getNutritionByFoodID(int foodID) {
 	    FoodNutrition foodNutrition = new FoodNutrition(foodID);
 

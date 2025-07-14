@@ -21,10 +21,12 @@ public class MealBuilderPanel extends JPanel {
 
     private List<Food> allFoods; 
     private Meal currentMeal;
+    private String username;
 
-    public MealBuilderPanel(List<Food> foodListFromDB) {
+    public MealBuilderPanel(List<Food> foodListFromDB, String username) {
         this.allFoods = foodListFromDB;
         this.setLayout(new BorderLayout());
+        this.username = username;
 
         
         JPanel topPanel = new JPanel(new FlowLayout());
@@ -137,7 +139,7 @@ public class MealBuilderPanel extends JPanel {
             return;
         }
 
-        int id = MealDAO.saveMeal(currentMeal);
+        int id = MealDAO.saveMeal(currentMeal, username);
         JOptionPane.showMessageDialog(this, "Meal saved with ID: " + id);
 
         // Reset
