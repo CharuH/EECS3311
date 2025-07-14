@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 public class LoginUI extends JFrame {
     private CardLayout cardLayout;
     private JPanel cards;
-    private UserData currentUser = new UserData(null, null, null, null, LocalDate.now(), 0.0, 0.0);
+    private UserData currentUser = UserData.getInstance();
     private Login login;
     private ProfileCreation1 createProfile1;
     private ProfileCreation2M createProfile2M;

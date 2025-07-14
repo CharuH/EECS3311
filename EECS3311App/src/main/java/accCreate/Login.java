@@ -68,9 +68,7 @@ public class Login extends JPanel{
 				password = new String(passwordText.getPassword());
 				UserDataRW read = new UserDataRW();
 				if (read.searchUser(username, password)) {
-					UserData data = read.getUser(username, password);
-					main.profile1(username, password, data.getUnits());
-					main.profile2(data.getSex(), data.getDob(), data.getWeight(), data.getHeight());
+					read.getUser(username, password);
 					main.login();
 				} else {
 					ErrorWindow error = new ErrorWindow("Incorrect Username or Password");
