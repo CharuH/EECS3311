@@ -18,156 +18,24 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class ProfileM extends JPanel {
-
-	private int winWidth;
-	private int winHeight;
-	
-	private UserData currentUser;
-	private String tempPassword;
-	private String tempSex;
-	private int tempYear;
-	private int tempMonth;
-	private int tempDay;
+public class ProfileM extends ProfileTemplate {
 	private double tempHeight;
 	private double tempWeight;
 	
-	private String username;
-	private String password;
-	private String measurement;
-	private String sex;
-	private int year;
-	private int month;
-	private int day;
-	private LocalDate dob;
 	private double height;
 	private double weight;
 	
-	private boolean error = false;
-	
 	public ProfileM(MainUI main) {
-		winWidth = 200;
-		winHeight = 150;
-		setPreferredSize(new Dimension(750, getHeight()));
-		setLayout(null);
-		setBackground(Color.WHITE);
-		
-		currentUser = main.getUser();
-		username = currentUser.getUsername();
-		tempPassword = currentUser.getPassword();
-		password = tempPassword;
-		measurement = currentUser.getUnits();
-		tempSex = currentUser.getSex();
-		sex = tempSex;
-		tempYear = currentUser.getDob().getYear();
-		year = tempYear;
-		tempMonth = currentUser.getDob().getMonthValue();
-		month = tempMonth;
-		tempDay = currentUser.getDob().getDayOfMonth();
-		day = tempDay;
+		profileP1(main);
+		profileP2(main);
+	}
+
+	@Override
+	public void profileP2(MainUI main) {
 		tempHeight = currentUser.getHeight();
 		height = tempHeight;
 		tempWeight = currentUser.getWeight();
 		weight = tempWeight;
-		
-		//Title
-		JLabel titleLabel = new JLabel("Profile");
-		titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-		titleLabel.setBounds(360, 85, 180, 30);
-		add(titleLabel);
-		
-		//username
-		JLabel userLabel = new JLabel("Username");
-		userLabel.setBounds(winWidth-140, winHeight+80, 80, 25); //x, y, width, height
-		add(userLabel);
-		
-		JTextField userText = new JTextField(username);
-		userText.setEditable(false);
-		userText.setBounds(winWidth+5, winHeight+80, 165, 25);
-		add(userText);
-
-		//password
-		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(winWidth-140, winHeight+115, 80, 25);
-		add(passwordLabel);
-		
-		JPasswordField passwordText = new JPasswordField(tempPassword);
-		passwordText.setBounds(winWidth+5, winHeight+115, 165, 25);
-		add(passwordText);
-		
-		//sex label
-		JLabel sexLabel = new JLabel("Sex");
-		sexLabel.setBounds(winWidth+215, winHeight+20, 150, 25); 
-		add(sexLabel);
-				
-		//sex drop-down box
-		String[] sexOptions = {"Male", "Female"};
-		JComboBox<String> sexBox = new JComboBox<>(sexOptions);
-		sexBox.setSelectedItem(tempSex);
-		sexBox.setBackground(Color.white);
-		sexBox.setBounds(winWidth+360, winHeight+20, 165, 25);
-		sexBox.addActionListener(e -> {
-					sex = (String) sexBox.getSelectedItem();
-		});
-		add(sexBox);
-				
-		//year label
-		JLabel yearLabel = new JLabel("Birth Year (yy)");
-		yearLabel.setBounds(winWidth+215, winHeight+55, 150, 25); 
-		add(yearLabel);
-								
-		//year field
-		JTextField yearField = new JTextField(String.valueOf(tempYear));
-		//yearField.setText(sex);
-		yearField.setBounds(winWidth+360, winHeight+55, 165, 25);
-		add(yearField);
-		yearField.addKeyListener(new KeyAdapter() {
-		        @Override
-		        public void keyTyped(KeyEvent e) {
-		        	char c = e.getKeyChar();
-		            if (!Character.isDigit(c)) { 
-		            	e.consume(); // Ignore non-digit characters
-		            }
-		        }
-		});
-				
-		//month label
-		JLabel monthLabel = new JLabel("Birth Month (mm)");
-		monthLabel.setBounds(winWidth+215, winHeight+90, 150, 25); 
-		add(monthLabel);
-								
-		//month field
-		JTextField monthField = new JTextField(String.valueOf(tempMonth));
-		monthField.setBounds(winWidth+360, winHeight+90, 165, 25);
-		add(monthField);
-		monthField.addKeyListener(new KeyAdapter() {
-			@Override
-		    public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-		        if (!Character.isDigit(c)) { // Allow only digits
-		        	e.consume(); // Ignore non-digit characters
-		        }
-		     }
-		});
-						
-		//day label
-		JLabel dayLabel = new JLabel("Birth Day: (dd)");
-		dayLabel.setBounds(winWidth+215, winHeight+125, 150, 25); 
-		add(dayLabel);
-				
-		//day field
-		JTextField dayField = new JTextField(String.valueOf(tempDay));
-		dayField.setBounds(winWidth+360, winHeight+125, 165, 25);
-		add(dayField);
-		dayField.addKeyListener(new KeyAdapter() {
-			@Override
-		    public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!Character.isDigit(c)) { // Allow only digits
-					e.consume(); // Ignore non-digit characters
-		        }
-		    }
-		});
 				
 		//height
 		JLabel heightLabel = new JLabel("Height: (cm)");
@@ -276,12 +144,8 @@ public class ProfileM extends JPanel {
 					main.profile1(username, password, measurement);
 					main.profile2(sex, dob, weight, height);
 					UserDataRW write = new UserDataRW();
-					write.updateUser(currentUser);
-					
-					
+					write.updateUser(currentUser);	
 				}
-				
-				
 			}
 		});
 		add(saveButton);
