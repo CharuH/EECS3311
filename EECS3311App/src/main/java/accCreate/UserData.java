@@ -3,6 +3,7 @@ package accCreate;
 import java.time.LocalDate;
 
 public class UserData {
+	private static UserData instance;
 	private String username;
 	private String password;
 	private String units;
@@ -11,7 +12,24 @@ public class UserData {
 	private double height;
 	private double weight;
 	
-	public UserData(String username, String password, String units, String sex, LocalDate dob, double height, double weight) {
+	private UserData() {
+		this.username = null;
+		this.password = null;
+		this.units = null;
+		this.sex = null;
+		this.dob = null;
+		this.height = 0;
+		this.weight = 0;
+	}
+	
+	public static UserData getInstance() {
+        if (instance == null) {
+            instance = new UserData();
+        }
+        return instance;
+    }
+	
+	public void setData(String username, String password, String units, String sex, LocalDate dob, double height, double weight) {
 		this.username = username;
 		this.password = password;
 		this.units = units;
@@ -20,7 +38,7 @@ public class UserData {
 		this.height = height;
 		this.weight = weight;
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}

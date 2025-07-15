@@ -15,5 +15,6 @@ public class Log extends JTabbedPane{
         add("Log Meal", new MealBuilderPanel(allFoods, username));
         add("View Meals", new MealViewerPanel());
         add("Adjust Meals", new MealSwapViewerPanel());
+
     }
 }
