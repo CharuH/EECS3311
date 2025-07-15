@@ -177,7 +177,7 @@ public class MealComparisonPanel extends JPanel {
 
     private JPanel createMealPanel(String title, Meal meal, Color titleColor, boolean showReplacements) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createRaisedBorder());
+        panel.setBorder(BorderFactory.createRaisedBevelBorder());
         panel.setBackground(Color.WHITE);
 
         // Title with colored indicator
@@ -395,7 +395,7 @@ public class MealComparisonPanel extends JPanel {
     private void addNutrientCard(JPanel parent, String name, double original, double modified, String unit, String goal) {
         JPanel card = new JPanel(new BorderLayout());
         card.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createRaisedBorder(), name, TitledBorder.LEFT, TitledBorder.TOP));
+                BorderFactory.createRaisedBevelBorder(), name, TitledBorder.LEFT, TitledBorder.TOP));
         card.setBackground(Color.WHITE);
 
         JPanel content = new JPanel(new GridLayout(4, 1));
