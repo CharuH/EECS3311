@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import app.Log;
+import app.MealSwapViewerPanel;
 import cfg.CFG;
 import dailyNutrition.DailyNutrition;
 
@@ -19,6 +20,7 @@ public class MainUI extends JFrame {
 	private ProfileM profileM;
 	private ProfileI profileI;
 	private UserData currentUser;
+	private MealSwapViewerPanel mealSwapViewer;
 	private CFG cfg;
 	private Log log;
 	private DailyNutrition nutrition;
@@ -68,6 +70,12 @@ public class MainUI extends JFrame {
         	currentPanel = nutrition;
         	add(nutrition, BorderLayout.EAST);
         }
+        else if (screenName.equals("swap")) {
+            mealSwapViewer = new MealSwapViewerPanel();
+            currentPanel = mealSwapViewer;
+            add(mealSwapViewer, BorderLayout.EAST);
+        }
+        
         revalidate();
         repaint();
     }
