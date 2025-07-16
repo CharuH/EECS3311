@@ -18,6 +18,7 @@ public class MealSwapViewerPanel extends JPanel {
     private JButton loadButton, openSwapButton;
     private DefaultListModel<Meal> mealListModel;
     private JList<Meal> mealList;
+    
 
     public MealSwapViewerPanel() {
         this.setLayout(new BorderLayout());

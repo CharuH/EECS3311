@@ -97,6 +97,21 @@ public class NutritionDAO {
         return nutrientName != null ? nutrientName : "Unknown Nutrient";
     }
 	
+	public static String getNutrientUnitByID(int nutrientId) {
+	    String query = "SELECT NutrientUnit FROM nutrient_name WHERE NutrientID = ?";
+	    try (Connection conn = Dbfetch.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        stmt.setInt(1, nutrientId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getString("NutrientUnit");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return "";
+	}
+	
 	
 	
 	

@@ -163,7 +163,7 @@ public class MealSwapSearch {
                 double diff = Math.abs(newAmount - targetAmount);
 
                 
-                if (newAmount >= targetAmount * 0.9 && newAmount <= targetAmount * 1.1) {
+                if (newAmount >= targetAmount * 0.95 && newAmount <= targetAmount * 1.05) {
                 	candidates.add(modified);
                 	System.out.println("added!");
                 	

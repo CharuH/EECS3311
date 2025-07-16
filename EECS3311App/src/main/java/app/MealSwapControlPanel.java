@@ -9,12 +9,12 @@ public class MealSwapControlPanel extends JPanel {
     private final Meal originalMeal;
     private JComboBox<ComboItem> nutrientComboBox;
     private JTextField multiplierField;
-    private JButton swapButton;
+    private JButton swapButton, compareButton;
     private JTextArea resultArea;
+    private Meal swappedMeal;
 
     public MealSwapControlPanel(Meal meal) {
         this.originalMeal = meal;
-
         setLayout(new BorderLayout());
 
         // --- Input Panel ---
@@ -25,12 +25,15 @@ public class MealSwapControlPanel extends JPanel {
 
         multiplierField = new JTextField("1.10", 5);
         swapButton = new JButton("Find Substitute");
+        compareButton = new JButton("Compare Meals");
+        compareButton.setEnabled(false); // Disabled initially
 
         inputPanel.add(new JLabel("Nutrient:"));
         inputPanel.add(nutrientComboBox);
         inputPanel.add(new JLabel("×"));
         inputPanel.add(multiplierField);
         inputPanel.add(swapButton);
+        inputPanel.add(compareButton);
 
         add(inputPanel, BorderLayout.NORTH);
 
@@ -39,7 +42,9 @@ public class MealSwapControlPanel extends JPanel {
         resultArea.setEditable(false);
         add(new JScrollPane(resultArea), BorderLayout.CENTER);
 
+        // --- Actions ---
         swapButton.addActionListener(this::handleSwap);
+        compareButton.addActionListener(this::showComparison);
     }
 
     private void handleSwap(ActionEvent e) {
@@ -58,18 +63,34 @@ public class MealSwapControlPanel extends JPanel {
         }
 
         int nutrientId = selected.getId();
-        Meal swapped = MealSwapSearch.suggestSubstitute(originalMeal, nutrientId, multiplier);
+        swappedMeal = MealSwapSearch.suggestSubstitute(originalMeal, nutrientId, multiplier);
 
         resultArea.setText("");
-        if (swapped == null) {
+        if (swappedMeal == null) {
             resultArea.setText("No suitable substitute found.");
+            compareButton.setEnabled(false);
         } else {
             resultArea.append("Suggested Meal:\n");
-            for (MealFood mf : swapped.getFoods()) {
+            for (MealFood mf : swappedMeal.getFoods()) {
                 resultArea.append(String.format("- %s: %.1fg\n", mf.getName(), mf.getQuantity()));
             }
-            resultArea.append(String.format("\nTotal Calories: %.1f kcal", swapped.getCalories()));
+            resultArea.append(String.format("\nTotal Calories: %.1f kcal", swappedMeal.getCalories()));
+            compareButton.setEnabled(true);
         }
+    }
+
+    private void showComparison(ActionEvent e) {
+        if (originalMeal == null || swappedMeal == null) {
+            JOptionPane.showMessageDialog(this, "Both meals must be available.");
+            return;
+        }
+
+        JFrame frame = new JFrame("Meal Comparison");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setContentPane(new MealComparisonTab(originalMeal, swappedMeal));
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
     }
 
     private void populateNutrientDropdown() {
