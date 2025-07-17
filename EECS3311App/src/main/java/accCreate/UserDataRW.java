@@ -177,9 +177,8 @@ public class UserDataRW {
 		return false;
 	}
 	
-	public UserData getUser(String usernameInp, String passwordInp) {
-		UserData data = null;
-		
+	public void getUser(String usernameInp, String passwordInp) {
+		UserData data = UserData.getInstance();
 		try {
 			//Connect to the database
 			connection = Dbfetch.getConnection();
@@ -207,8 +206,7 @@ public class UserDataRW {
                 double height = resultSet.getDouble("Height");
                 double weight = resultSet.getDouble("Weight");
 
-                data = new UserData(username, password, units, sex, LocalDate.of(birthYear, birthMonth, birthDay), height, weight);
-                return data;
+                data.setData(username, password, units, sex, LocalDate.of(birthYear, birthMonth, birthDay), height, weight);
             } 
 
 		} catch (SQLException e) {
@@ -222,7 +220,6 @@ public class UserDataRW {
 				e.printStackTrace();
 			}
 		}
-		return data;
 	}
 	
 }

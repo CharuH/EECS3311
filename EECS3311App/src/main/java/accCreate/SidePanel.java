@@ -60,6 +60,13 @@ public class SidePanel extends JPanel {
 		buttonHover(nutriButton);
 		buttonClicked(nutriButton, "nutrition", main);
 		add(nutriButton);
+		
+		JButton swapButton = new JButton("Swap");
+		swapButton.setBounds(25, 205, 100, 25);
+		swapButton.setBackground(Color.white);
+		buttonHover(swapButton);
+		buttonClicked(swapButton, "swap", main);
+		add(swapButton);
 	}
 	
 	private void buttonHover(JButton button) {

@@ -26,6 +26,14 @@ public class Meal {
         
     }
     
+    public Meal(int id,LocalDate date,MealType type,List<MealFood> foods ) {
+        this.foods = foods;
+        this.date=date;
+        this.id=id;
+        this.type=type;
+        
+    }
+    
     public void AddCourse(MealFood course) {
     	foods.add(course);
     }
@@ -33,7 +41,9 @@ public class Meal {
     	this.date=date;
     }
     
-    
+    public int getID() {
+    		return id;
+    }
     
     public double getCalories() {
     	double result=0.0;
@@ -92,13 +102,36 @@ public class Meal {
 	    sb.append("Foods:\n");
 
 	    for (MealFood food : foods) {
-	        sb.append("  - ").append(food.toString()).append("\n");
+	        sb.append("  - ").append(food.toString()).append(":  ").append(food.getQuantity()).append("g").append("\n");
 	    }
 
-	    sb.append("Total Nutrition:\n");
-	    sb.append(getNutrition().toString()); 
-
+	    
 	    return sb.toString();
+	}
+
+	public List<Double> getQuantities() {
+		// TODO Auto-generated method stub
+		List<Double> quantities = new ArrayList<>();
+		for(MealFood food: foods) {
+			quantities.add(food.getQuantity());
+			
+		}
+		return quantities;
+	}
+	
+	
+	public Meal copy() {
+	    List<MealFood> clonedFoods = new ArrayList<>();
+	    for (MealFood food : this.foods) {
+	        clonedFoods.add(food.copy()); // assuming MealFood has a .copy() method
+	    }
+
+	    return new Meal(this.id, this.date, this.type, clonedFoods);
+	}
+
+	public void replaceFoodAt(int i, MealFood substitute, double originalQty) {
+		foods.set(i,substitute);
+		
 	}
     
     

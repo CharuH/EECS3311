@@ -5,6 +5,8 @@ import java.util.Map;
 public class MealFood extends Food{
            // Foreign key to a food item
     private double quantityInGrams;
+    private FoodNutrition cachedNutrition;
+    
     
 
     public MealFood(int foodId, double quantityInGrams,String name) {
@@ -27,8 +29,23 @@ public class MealFood extends Food{
     }
     
     public FoodNutrition getNutrition(){
-    	return NutritionDAO.getNutritionByFoodID(foodId);
+    	if (cachedNutrition == null) {
+            cachedNutrition = NutritionDAO.getNutritionByFoodID(foodId);
+        }
+        return cachedNutrition;
     }
+    
+    public MealFood copy() {
+        MealFood clone = new MealFood(this.foodId, this.quantityInGrams, this.name);
+        clone.cachedNutrition = this.cachedNutrition;
+        return clone;
+    }
+    
+    public String toString() {
+    	return name;
+    }
+    
+    
     
     
 

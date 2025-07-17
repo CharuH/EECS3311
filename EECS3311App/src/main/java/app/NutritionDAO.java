@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 public class NutritionDAO {
+	
+	
 	public static FoodNutrition getNutritionByFoodID(int foodID) {
 	    FoodNutrition foodNutrition = new FoodNutrition(foodID);
 
@@ -42,6 +46,35 @@ public class NutritionDAO {
 	    return foodNutrition;
 	}
 	
+	public static double getNutrientByFoodID(int foodID, int nutrientID) {
+	    String sql = """
+	        SELECT na.NutrientValue, nn.NutrientDecimals
+	        FROM nutrient_amount na
+	        JOIN nutrient_name nn ON na.NutrientID = nn.NutrientID
+	        WHERE na.FoodID = ? AND na.NutrientID = ?
+	    """;
+
+	    try (Connection conn = Dbfetch.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, foodID);
+	        stmt.setInt(2, nutrientID);
+
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            double value = rs.getDouble("NutrientValue");
+	            int decimals = rs.getInt("NutrientDecimals");
+	            return value * Math.pow(10, -decimals);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    // If not found or error occurs
+	    return -1;
+	}
+	
 	public static String getNutrientNameByID(int nutrientID) {
         String nutrientName = null;
 
@@ -64,6 +97,24 @@ public class NutritionDAO {
         return nutrientName != null ? nutrientName : "Unknown Nutrient";
     }
 	
+	public static String getNutrientUnitByID(int nutrientId) {
+	    String query = "SELECT NutrientUnit FROM nutrient_name WHERE NutrientID = ?";
+	    try (Connection conn = Dbfetch.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        stmt.setInt(1, nutrientId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getString("NutrientUnit");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return "";
+	}
+	
+	
+	
+	
 	public static int getKcalbyFoodID(int id) {
 		String query = "SELECT `Nutrient_Value` FROM `nutrients` WHERE Food_id = ? AND Nutrient_code = 208";
         try (Connection conn = Dbfetch.getConnection();
@@ -81,5 +132,24 @@ public class NutritionDAO {
         }
         return -1; 
     }
+	
+	public static List<Integer> getAllNutrientIDs() {
+	    List<Integer> nutrientIDs = new ArrayList<>();
+	    String sql = "SELECT NutrientID FROM nutrient_name";
+
+	    try (Connection conn = Dbfetch.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            nutrientIDs.add(rs.getInt("NutrientID"));
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return nutrientIDs;
+	}
 
 }

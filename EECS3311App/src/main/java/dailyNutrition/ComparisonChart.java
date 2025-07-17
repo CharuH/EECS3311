@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ComparisonChart {
 
@@ -19,7 +20,7 @@ public class ComparisonChart {
 			data[row][1] = Double.toString(entry.getValue());
 			row++;
 		}
-		
+        
 		//set recommended and difference columns
 		for(Map.Entry<Nutrient, Double> entry: recNutrition) {
 			for (int r=0; r<11; r++) {
@@ -37,7 +38,16 @@ public class ComparisonChart {
 				}
 			}
 		}
-		JTable table = new JTable(data, columnNames);
+		
+		
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // Disable editing for all cells
+            }
+        };
+        
+		JTable table = new JTable(model);
 		return table;
 	}
 }

@@ -363,4 +363,3 @@ public class DailyNutritionDAO {
 		return recNutrition;
 	}
 }
-
