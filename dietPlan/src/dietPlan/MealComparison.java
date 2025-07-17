@@ -504,4 +504,54 @@ public class MealComparisonPanel extends JPanel {
     private static class NutrientTotals {
         double calories = 0, fiber = 0, protein = 0;
     }
+
+
+    // ========================================
+    // MAIN METHOD FOR TESTING
+    // ========================================
+
+    public static void main(String[] args) {
+        // Set the look and feel to system default
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeel());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Create the main frame
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Meal Comparison Panel - Test");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(1200, 800);
+            frame.setLocationRelativeTo(null);
+
+            // Create some sample foods for testing
+            List<Food> sampleFoods = new ArrayList<>();
+            sampleFoods.add(new Food(1, "White Bread", 265));
+            sampleFoods.add(new Food(2, "Butter", 717));
+            sampleFoods.add(new Food(3, "Regular Milk", 42));
+            sampleFoods.add(new Food(4, "Whole Wheat Bread", 247));
+            sampleFoods.add(new Food(5, "Avocado", 160));
+            sampleFoods.add(new Food(6, "Almond Milk", 13));
+
+            // Create the meal comparison panel
+            MealComparisonPanel comparisonPanel = new MealComparisonPanel(sampleFoods);
+
+            // Add the panel to the frame
+            frame.add(comparisonPanel);
+
+            // Show the frame
+            frame.setVisible(true);
+
+            // Print some test information
+            System.out.println("=== Meal Comparison Panel Test ===");
+            System.out.println("The application is now running!");
+            System.out.println("Features to test:");
+            System.out.println("1. Toggle between 'Meal Comparison' and 'Nutrient Analysis' views");
+            System.out.println("2. Observe the visual differences between original and optimized meals");
+            System.out.println("3. Check the nutritional improvements in the analysis view");
+            System.out.println("4. Hover over optimized foods to see tooltips");
+            System.out.println("=====================================");
+        });
+    }
 }
