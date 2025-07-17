@@ -168,5 +168,33 @@ public class MealDAO {
         }
 	return meals;
     }
+
+    //Swaps meals between two dates
+    public static void swapMeals(int foodID_old, int foodID_new, Date start, Date end, String username) {
+    	
+    	try (Connection conn = Dbfetch.getConnection()) {
+    		String query = """
+    				UPDATE meal_foods
+    				JOIN meals ON meal_foods.meal_id = meals.id
+    				SET meal_foods.food_id = ?
+    				WHERE meal_foods.food_id = ?
+    				AND meal_foods.username = ?
+    				AND meals.meal_date BETWEEN ? AND ?
+    				""";
+    		
+    		PreparedStatement stmt = conn.prepareStatement(query);
+    		
+    		stmt.setInt(1, foodID_new);
+    		stmt.setInt(2, foodID_old);
+    		stmt.setString(3, username);
+    		stmt.setDate(4, start);
+    		stmt.setDate(5, end);
+    		
+    		stmt.executeUpdate();
+    		
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
 }
 
