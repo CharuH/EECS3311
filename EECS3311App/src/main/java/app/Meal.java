@@ -41,7 +41,9 @@ public class Meal {
     	this.date=date;
     }
     
-    
+    public int getID() {
+    		return id;
+    }
     
     public double getCalories() {
     	double result=0.0;
