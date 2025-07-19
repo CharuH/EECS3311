@@ -138,7 +138,6 @@ public class MealDAO {
 	}
 
     //Retrieve food between two dates
-    //For use case 5
     public static List<Meal> getMealsByDates(LocalDate start, LocalDate end, String username) {
         List<Meal> meals = new ArrayList<>();
         String query = "SELECT * FROM meals WHERE meal_date BETWEEN ? AND ? AND username = ?";
@@ -155,22 +154,24 @@ public class MealDAO {
         		int id = rs.getInt("id");
         		
         		Date meal_date = Date.valueOf(rs.getString("meal_date"));
-			LocalDate date = meal_date.toLocalDate();
+        		LocalDate date = meal_date.toLocalDate();
 				
         		MealType type = MealType.valueOf(rs.getString("meal_type"));
         		
-        		Meal meal = new Meal(id, date, type);
+        		List<MealFood> foods = getMealFoodsByMealId(id);
+        		Meal meal = new Meal(id, date, type, foods);
+	        
         		meals.add(meal);
         	}
         	
         } catch (SQLException e) {
-        	e.printStackTrace();
+        		e.printStackTrace();
         }
-	return meals;
+		return meals;
     }
-
+    
     //Swaps meals between two dates
-    public static void swapMeals(int foodID_old, int foodID_new, Date start, Date end, String username) {
+    public static void swapMeals(int foodID_old, int foodID_new, LocalDate start, LocalDate end, String username) {
     	
     	try (Connection conn = Dbfetch.getConnection()) {
     		String query = """
@@ -187,8 +188,8 @@ public class MealDAO {
     		stmt.setInt(1, foodID_new);
     		stmt.setInt(2, foodID_old);
     		stmt.setString(3, username);
-    		stmt.setDate(4, start);
-    		stmt.setDate(5, end);
+    		stmt.setDate(4, Date.valueOf(start));
+    		stmt.setDate(5, Date.valueOf(end));
     		
     		stmt.executeUpdate();
     		
