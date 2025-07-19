@@ -9,7 +9,7 @@ import java.util.Map;
 public class AcrossTimeMealSubstitution {
 	Nutrition cumulative = new Nutrition();
 	Nutrition average = new Nutrition();
-	Map<Integer, Nutrition> perMeal = new HashMap<Integer, Nutrition>();
+	Map<Integer, Nutrition> perMeal = new HashMap<Integer, Nutrition>();//Integer: MealID, Nutrition: nutrition of meal
 	
 	//USE CASE 5
 	public AcrossTimeMealSubstitution(int foodID_new, int foodID_old, LocalDate start, LocalDate end, String username) {
