@@ -197,5 +197,39 @@ public class MealDAO {
     		e.printStackTrace();
     	}
     }
+    
+    public static void deleteMealFoods(int mealId, String username) {
+        String sql = "DELETE FROM meal_foods WHERE meal_id = ? AND username = ?";
+        try (Connection conn = Dbfetch.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, mealId);
+            stmt.setString(2, username);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void insertMealFoods(Meal meal, String username) {
+        String sql = "INSERT INTO meal_foods (meal_id, food_id, quantity_in_grams, username) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = Dbfetch.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < meal.getFoods().size(); i++) {
+                MealFood mf = meal.getFoods().get(i);
+                stmt.setInt(1, meal.getID());
+                stmt.setInt(2, mf.getFoodId());
+                stmt.setDouble(3, mf.getQuantity());
+                stmt.setString(4, username);  // Add username
+                stmt.addBatch();
+            }
+
+            stmt.executeBatch();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

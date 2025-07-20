@@ -18,9 +18,11 @@ public class MealSwapViewerPanel extends JPanel {
     private JButton loadButton, openSwapButton;
     private DefaultListModel<Meal> mealListModel;
     private JList<Meal> mealList;
+    private String username;
     
 
-    public MealSwapViewerPanel() {
+    public MealSwapViewerPanel(String username) {
+    	this.username=username;
         this.setLayout(new BorderLayout());
 
         // Top panel with date chooser and buttons
@@ -91,7 +93,7 @@ public class MealSwapViewerPanel extends JPanel {
 
         JFrame swapFrame = new JFrame("Meal Modifier");
         swapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        swapFrame.setContentPane(new MealSwapControlPanel(selected));
+        swapFrame.setContentPane(new MealSwapControlPanel(selected,username));
         swapFrame.pack();
         swapFrame.setLocationRelativeTo(this);
         swapFrame.setVisible(true);

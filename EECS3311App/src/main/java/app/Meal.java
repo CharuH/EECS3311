@@ -45,6 +45,10 @@ public class Meal {
     		return id;
     }
     
+    public void setID(int id) {
+			this.id=id;
+    }
+    
     public double getCalories() {
     	double result=0.0;
     	

@@ -9,11 +9,14 @@ public class MealSwapControlPanel extends JPanel {
     private final Meal originalMeal;
     private JComboBox<ComboItem> nutrientComboBox;
     private JTextField multiplierField;
-    private JButton swapButton, compareButton;
+    private JButton swapButton, compareButton, applyButton;
     private JTextArea resultArea;
     private Meal swappedMeal;
+    private String username;
+    
 
-    public MealSwapControlPanel(Meal meal) {
+    public MealSwapControlPanel(Meal meal, String username) {
+    	this.username=username;
         this.originalMeal = meal;
         setLayout(new BorderLayout());
 
@@ -27,6 +30,12 @@ public class MealSwapControlPanel extends JPanel {
         swapButton = new JButton("Find Substitute");
         compareButton = new JButton("Compare Meals");
         compareButton.setEnabled(false); // Disabled initially
+        
+        
+        applyButton = new JButton("Apply Swap");
+        applyButton.setEnabled(false);
+        inputPanel.add(applyButton);
+        
 
         inputPanel.add(new JLabel("Nutrient:"));
         inputPanel.add(nutrientComboBox);
@@ -45,6 +54,8 @@ public class MealSwapControlPanel extends JPanel {
         // --- Actions ---
         swapButton.addActionListener(this::handleSwap);
         compareButton.addActionListener(this::showComparison);
+        
+        applyButton.addActionListener(this::applySwapToDatabase);
     }
 
     private void handleSwap(ActionEvent e) {
@@ -73,9 +84,11 @@ public class MealSwapControlPanel extends JPanel {
             resultArea.append("Suggested Meal:\n");
             for (MealFood mf : swappedMeal.getFoods()) {
                 resultArea.append(String.format("- %s: %.1fg\n", mf.getName(), mf.getQuantity()));
+                
             }
             resultArea.append(String.format("\nTotal Calories: %.1f kcal", swappedMeal.getCalories()));
             compareButton.setEnabled(true);
+            applyButton.setEnabled(true);
         }
     }
 
@@ -120,6 +133,36 @@ public class MealSwapControlPanel extends JPanel {
 
         public String toString() {
             return label;
+        }
+    }
+    
+    private void applySwapToDatabase(ActionEvent e) {
+        if (swappedMeal == null) {
+            JOptionPane.showMessageDialog(this, "No substituted meal to apply.");
+            return;
+        }
+
+        int mealId = originalMeal.getID();
+        swappedMeal.setID(mealId);
+        
+
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to replace this meal?",
+            "Confirm Swap",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                MealDAO.deleteMealFoods(mealId,username);
+                MealDAO.insertMealFoods(swappedMeal,username);
+                JOptionPane.showMessageDialog(this, "Meal successfully updated.");
+                applyButton.setEnabled(false); // Optional: disable after use
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error updating meal.");
+            }
         }
     }
 }

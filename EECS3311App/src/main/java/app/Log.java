@@ -14,7 +14,7 @@ public class Log extends JTabbedPane{
         String username = main.getUser().getUsername();
         add("Log Meal", new MealBuilderPanel(allFoods, username));
         add("View Meals", new MealViewerPanel());
-        add("Adjust Meals", new MealSwapViewerPanel());
+        add("Adjust Meals", new MealSwapViewerPanel(username));
 
     }
 }

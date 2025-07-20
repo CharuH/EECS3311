@@ -70,11 +70,7 @@ public class MainUI extends JFrame {
         	currentPanel = nutrition;
         	add(nutrition, BorderLayout.EAST);
         }
-        else if (screenName.equals("swap")) {
-            mealSwapViewer = new MealSwapViewerPanel();
-            currentPanel = mealSwapViewer;
-            add(mealSwapViewer, BorderLayout.EAST);
-        }
+        
         
         revalidate();
         repaint();
