@@ -35,8 +35,8 @@ import chart.ChartContext;
 
 public class DailyNutrition extends JPanel {
 
-	GridBagConstraints gbc; 
-	boolean chartsAdded = false;
+	private GridBagConstraints gbc; 
+	private boolean chartsAdded = false;
 	
 	public DailyNutrition(MainUI main) {
 		setPreferredSize(new Dimension(750, getHeight()));
