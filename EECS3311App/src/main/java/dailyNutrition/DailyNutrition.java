@@ -35,8 +35,8 @@ import chart.ChartContext;
 
 public class DailyNutrition extends JPanel {
 
-	GridBagConstraints gbc; 
-	boolean chartsAdded = false;
+	private GridBagConstraints gbc; 
+	private boolean chartsAdded = false;
 	
 	public DailyNutrition(MainUI main) {
 		setPreferredSize(new Dimension(750, getHeight()));
@@ -122,7 +122,7 @@ public class DailyNutrition extends JPanel {
 				//get average nutrition from start to end date (with names and units)
 				HashMap<Nutrient, Double> avgNutritionNamed = nutritionDAO.convertUnitsName(avgNutrition);
 				//sort average nutrition in descending order
-				ArrayList<Map.Entry<Nutrient, Double>> nutritionDescending = SortNutrients.sortMapByValuesDescending(avgNutritionNamed);
+				ArrayList<Entry<Nutrient, Double>> nutritionDescending = SortNutrients.sortMapByValuesDescending(avgNutritionNamed);
 				//get top 10 nutrients + other 
 				ArrayList<Entry<Nutrient, Double>> topList = SortNutrients.getTopNutrients(nutritionDescending);
 				//get matching recommended nutrient amounts corresponding to top 10 nutrients

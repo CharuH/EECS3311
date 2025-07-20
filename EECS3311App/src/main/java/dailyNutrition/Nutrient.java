@@ -16,7 +16,7 @@ public class Nutrient {
 		return nutrientID;
 	}
 
-	public void setNutrient(int nutrientID) {
+	public void setNutrientID(int nutrientID) {
 		this.nutrientID = nutrientID;
 	}
 	

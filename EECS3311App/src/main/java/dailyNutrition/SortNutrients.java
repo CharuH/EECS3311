@@ -3,19 +3,20 @@ package dailyNutrition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class SortNutrients {
 
-	public static ArrayList<Map.Entry<Nutrient, Double>> sortMapByValuesDescending(HashMap<Nutrient, Double> nutrition) {
+	public static ArrayList<Entry<Nutrient, Double>> sortMapByValuesDescending(HashMap<Nutrient, Double> nutrition) {
         //convert the HashMap to an ArrayList
-        ArrayList<Map.Entry<Nutrient, Double>> sortedList = new ArrayList<>(nutrition.entrySet());
+        ArrayList<Entry<Nutrient, Double>> sortedList = new ArrayList<>(nutrition.entrySet());
         //sort the list in descending order
         sortedList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
         return sortedList;
     }
 	
-	public static ArrayList<Map.Entry<Nutrient, Double>> getTopNutrients(ArrayList<Map.Entry<Nutrient, Double>> nutrition) {
-		ArrayList<Map.Entry<Nutrient, Double>> topNutrients = new ArrayList<>();
+	public static ArrayList<Entry<Nutrient, Double>> getTopNutrients(ArrayList<Entry<Nutrient, Double>> nutrition) {
+		ArrayList<Entry<Nutrient, Double>> topNutrients = new ArrayList<>();
 		HashMap<Nutrient, Double> other = new HashMap<>();
 		double sumOther = 0;
 		//go through each nutrient
@@ -31,7 +32,7 @@ public class SortNutrients {
 		}
 		other.put(new Nutrient(0, "Other", "g"), sumOther);
 		//add HashMap entries to ArrayList
-		for (Map.Entry<Nutrient, Double> entryOther : other.entrySet()) {
+		for (Entry<Nutrient, Double> entryOther : other.entrySet()) {
             topNutrients.add(entryOther);
         }
 		return topNutrients;
