@@ -1,39 +1,54 @@
 package app;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Map;
 
 import javax.swing.*;
 import org.jfree.chart.*;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class MealBreakdownTab extends JPanel {
 
     public MealBreakdownTab(Meal meal) {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("Nutrient Breakdown for Meal: " + meal.getType().name()));
+        setLayout(new BorderLayout());
+
+        JLabel title = new JLabel("Nutrient Breakdown for Meal: " + meal.getType().name());
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 16f));
+        title.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(title, BorderLayout.NORTH);
 
         ChartPanel chartPanel = createNutrientChart(meal);
-        add(chartPanel);
+        add(chartPanel, BorderLayout.CENTER);
+
+        JTextArea mealDetails = new JTextArea();
+        mealDetails.setEditable(false);
+        StringBuilder sb = new StringBuilder("Meal Components:\n");
+        for (MealFood mf : meal.getFoods()) {
+            sb.append(String.format("- %s: %.1fg\n", mf.getName(), mf.getQuantity()));
+        }
+        mealDetails.setText(sb.toString());
+        mealDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(mealDetails, BorderLayout.SOUTH);
     }
 
     private ChartPanel createNutrientChart(Meal meal) {
-        // Aggregate nutrition
         Nutrition total = new Nutrition();
         for (MealFood mf : meal.getFoods()) {
             total.add(mf.getNutrition(), mf.getQuantity());
         }
 
-        // Prepare dataset
         DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
         for (Map.Entry<Integer, Double> entry : total.getAll().entrySet()) {
-            String nutrientName = NutritionDAO.getNutrientNameByID(entry.getKey()); // You’d define this helper
+            String nutrientName = NutritionDAO.getNutrientNameByID(entry.getKey());
             double value = entry.getValue();
             if (value > 0) {
                 dataset.setValue(nutrientName, value);
             }
         }
 
-        // Create pie chart
         JFreeChart chart = ChartFactory.createPieChart(
             "Nutrient Composition",
             dataset,
@@ -43,7 +58,11 @@ public class MealBreakdownTab extends JPanel {
         );
 
         PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setSimpleLabels(true);
+        plot.setSimpleLabels(false);
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {1}"));
+        plot.setLabelBackgroundPaint(Color.WHITE);
+        plot.setLabelOutlinePaint(null);
+        plot.setLabelShadowPaint(null);
 
         return new ChartPanel(chart);
     }

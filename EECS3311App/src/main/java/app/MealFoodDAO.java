@@ -76,10 +76,10 @@ public class MealFoodDAO {
 	            }
 	            
 	        } catch (SQLException e) {
-	            e.printStackTrace();  // or use proper logging
+	            e.printStackTrace(); 
 	        }
 
-	        return -1;  // return -1 if not found or error
+	        return -1;  
 	    }
 	    
 	    

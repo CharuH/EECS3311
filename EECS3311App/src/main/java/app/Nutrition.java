@@ -30,6 +30,15 @@ public class Nutrition {
     public Map<Integer, Double> getAll() {
         return nutrients;
     }
+
+	public void add(Nutrition nutrition, double factor) {
+		for (Map.Entry<Integer, Double> entry : nutrition.getAll().entrySet()) {
+            Integer key = entry.getKey();
+            double value = entry.getValue() * factor;
+            this.nutrients.put(key, this.getNutrient(key) + value);
+        }
+		
+	}
     
     
 }

@@ -57,7 +57,7 @@ public class MealSwapViewerPanel extends JPanel {
         });
         this.add(new JScrollPane(mealList), BorderLayout.CENTER);
 
-        // Action listeners
+        
         loadButton.addActionListener(e -> loadMeals());
         openSwapButton.addActionListener(e -> openMealSwapper());
 

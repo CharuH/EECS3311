@@ -10,12 +10,12 @@ public class MealComparisonTab extends JPanel {
     public MealComparisonTab(Meal original, Meal modified) {
         setLayout(new BorderLayout());
 
-        // Top: Title
+        
         JLabel title = new JLabel("Meal Comparison", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 16));
         add(title, BorderLayout.NORTH);
 
-        // Center: Nutrient comparison
+        
         JPanel comparisonPanel = new JPanel(new GridLayout(0, 3, 10, 5));
         Map<Integer, Double> orig = original.getNutrition().getAll();
         Map<Integer, Double> mod = modified.getNutrition().getAll();
@@ -46,7 +46,7 @@ public class MealComparisonTab extends JPanel {
             double val1 = orig.getOrDefault(id, 0.0);
             double val2 = mod.getOrDefault(id, 0.0);
 
-            String unit = NutritionDAO.getNutrientUnitByID(id); // You need to implement this
+            String unit = NutritionDAO.getNutrientUnitByID(id); 
             String label = name + (unit != null && !unit.isBlank() ? " (" + unit + ")" : "");
 
             JLabel nameLabel = new JLabel(label);

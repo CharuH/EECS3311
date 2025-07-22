@@ -71,7 +71,7 @@ public class NutritionDAO {
 	        e.printStackTrace();
 	    }
 
-	    // If not found or error occurs
+	    
 	    return -1;
 	}
 	

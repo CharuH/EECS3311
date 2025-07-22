@@ -168,6 +168,20 @@ public class MealSwapSearch {
                 	System.out.println("added!");
                 	
                 }
+                
+                if (multiplier<1&& newAmount <= targetAmount &&  newAmount >= targetAmount*0.5 ) {
+                	candidates.add(modified);
+                	System.out.println("added!");
+                	
+                }
+                
+                if (multiplier>1&& newAmount >= targetAmount &&  newAmount <= targetAmount*2 ) {
+                	candidates.add(modified);
+                	System.out.println("added!");
+                	
+                }
+                
+                
                 System.out.println("Trying substitute: " + substitute.getName());
             	System.out.println("Target: " + targetAmount + " Actual: " + newAmount);
             	System.out.println(c);

@@ -127,7 +127,7 @@ public class Meal {
 	public Meal copy() {
 	    List<MealFood> clonedFoods = new ArrayList<>();
 	    for (MealFood food : this.foods) {
-	        clonedFoods.add(food.copy()); // assuming MealFood has a .copy() method
+	        clonedFoods.add(food.copy());
 	    }
 
 	    return new Meal(this.id, this.date, this.type, clonedFoods);
