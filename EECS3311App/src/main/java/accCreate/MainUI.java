@@ -33,9 +33,9 @@ public class MainUI extends JFrame {
         setLayout(new BorderLayout());
         this.currentUser = currentUser;
         
-        JPanel home = new JPanel();
-        add(home, BorderLayout.EAST);
-        currentPanel = home;
+        log = new Log(this);
+	currentPanel = log;
+        add(log, BorderLayout.EAST);
 
         sidePanel = new SidePanel(this);
         add(sidePanel, BorderLayout.WEST);
