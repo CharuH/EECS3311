@@ -69,7 +69,11 @@ public class MainUI extends JFrame {
         	nutrition = new DailyNutrition(this);
         	currentPanel = nutrition;
         	add(nutrition, BorderLayout.EAST);
-        } 
+        }  else if (screenName.equals("mealSwapAcrossTime")) {
+            acrossTimeMealSubstitution = new AcrossTimeMealSubstitution(this);
+            currentPanel = acrossTimeMealSubstitution;
+            add(acrossTimeMealSubstitution, BorderLayout.EAST);
+        }
         revalidate();
         repaint();
     }
