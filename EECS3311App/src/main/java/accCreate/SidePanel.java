@@ -60,14 +60,6 @@ public class SidePanel extends JPanel {
 		buttonHover(nutriButton);
 		buttonClicked(nutriButton, "nutrition", main);
 		add(nutriButton);
-
-		JButton acrossTimeButton = new JButton("Time Swap");
-		acrossTimeButton.setBounds(25, 205, 100, 25);
-		acrossTimeButton.setBackground(Color.white);
-		buttonHover(acrossTimeButton);
-		buttonClicked(acrossTimeButton, "mealSwapAcrossTime", main);
-		add(acrossTimeButton);
-		
 	}
 	
 	private void buttonHover(JButton button) {
