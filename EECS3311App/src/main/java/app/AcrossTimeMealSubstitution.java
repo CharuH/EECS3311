@@ -81,7 +81,7 @@ public class AcrossTimeMealSubstitution extends JPanel {
     	cumulativeButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent e) {
-        		updateCumulativeDisplay(nutrientPanel);
+        		displayCumulative(nutrientPanel);
         	}
         });
     	cumulativeButton.setEnabled(false);
@@ -92,7 +92,7 @@ public class AcrossTimeMealSubstitution extends JPanel {
     	averageButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent e) {
-        		updateAverageDisplay(nutrientPanel);
+        		displayAverage(nutrientPanel);
         	}
         });
     	averageButton.setEnabled(false);
@@ -267,7 +267,7 @@ public class AcrossTimeMealSubstitution extends JPanel {
 		return this.perMeal;
 	}
 	
-	private void updateCumulativeDisplay(JPanel contentPanel) {
+	private void displayCumulative(JPanel contentPanel) {
 	    nutrientPanel.removeAll();  // Clear previous labels
 
 	    Map<Integer, Double> cumulativeNutrients = this.getCumulative().getAll();
@@ -296,7 +296,7 @@ public class AcrossTimeMealSubstitution extends JPanel {
 	}
 
 	
-	private void updateAverageDisplay(JPanel contentPanel) {
+	private void displayAverage(JPanel contentPanel) {
 	    nutrientPanel.removeAll();  // Clear previous labels
 	    
 	    Map<Integer, Double> averageNutrients = this.getAverage().getAll();
