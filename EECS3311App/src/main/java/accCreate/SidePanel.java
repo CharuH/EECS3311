@@ -60,6 +60,13 @@ public class SidePanel extends JPanel {
 		buttonHover(nutriButton);
 		buttonClicked(nutriButton, "nutrition", main);
 		add(nutriButton);
+
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.setBounds(25, 240, 100, 25);
+		logoutButton.setBackground(Color.white);
+		buttonHover(logoutButton);
+		buttonClicked(logoutButton, "logout", main);
+		add(logoutButton);
 	}
 	
 	private void buttonHover(JButton button) {
