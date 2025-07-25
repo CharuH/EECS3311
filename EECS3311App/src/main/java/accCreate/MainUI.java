@@ -69,7 +69,10 @@ public class MainUI extends JFrame {
         	nutrition = new DailyNutrition(this);
         	currentPanel = nutrition;
         	add(nutrition, BorderLayout.EAST);
-        }  
+        }  else if (screenName.equals("logout")) {
+        	dispose();
+        	new LoginUI().setVisible(true);
+        }
         revalidate();
         repaint();
     }
