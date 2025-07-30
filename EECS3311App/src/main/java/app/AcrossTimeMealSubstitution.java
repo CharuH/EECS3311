@@ -154,11 +154,11 @@ public class AcrossTimeMealSubstitution extends JPanel {
                 	String newFood = newFoodField.getText().trim();
                 	String startDateString = startDateField.getText().trim();
                 	String endDateString = endDateField.getText().trim();
-                	Date startDate; Date endDate;
+                	LocalDate startDate; LocalDate endDate;
 
                 	try {
-                		startDate = Date.valueOf(startDateString);
-                		endDate = Date.valueOf(endDateString);
+                		startDate = LocalDate.parse(startDateString);
+                		endDate = LocalDate.parse(endDateString);
                 	} catch (IllegalArgumentException  d) {
                 		JOptionPane.showMessageDialog(AcrossTimeMealSubstitution.this, "Make sure the dates are in the right form");
                 		return;
@@ -237,7 +237,7 @@ public class AcrossTimeMealSubstitution extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
 	}
 	
-	public void AcrossTimeMealSubstitutionMethod(int foodID_new, int foodID_old, Date start, Date end, String username) {
+	public void AcrossTimeMealSubstitutionMethod(int foodID_new, int foodID_old, LocalDate start, LocalDate end, String username) {
 		System.out.println(username);
 		
 		List<Meal> old_meals = MealDAO.getMealsByDates(start, end, username);
