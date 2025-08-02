@@ -116,7 +116,7 @@ public class ProfileM extends ProfileTemplate {
 					}
 				} catch (Exception ex1) {
 					error = true;
-					JOptionPane.showMessageDialog(null, "Invalid Date of Birth", "Error", JOptionPane.ERROR_MESSAGE);				}
+					JOptionPane.showMessageDialog(null, "Invalid Date of Birth", "Error", JOptionPane.ERROR_MESSAGE);				
 				}
 				try {
 					height = Double.parseDouble(heightField.getText());
