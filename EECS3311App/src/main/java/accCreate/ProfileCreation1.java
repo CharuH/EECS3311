@@ -33,35 +33,25 @@ public class ProfileCreation1 extends JPanel {
 		
 		//Title
 		JLabel titleLabel = new JLabel("New Account");
-		//titleLabel.setForeground(new Color(42, 215, 23));
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		titleLabel.setBounds(winWidth+115, winHeight-65, 180, 30);
 		add(titleLabel);
 		
+		//username
 		JLabel userLabel = new JLabel("Enter a Username");
-		userLabel.setBounds(winWidth+10, winHeight+20, 150, 25); //x, y, width, height
-		add(userLabel);
-		
 		JTextField userText = new JTextField(20);
-		userText.setBounds(winWidth+145, winHeight+20, 165, 25);
-		add(userText);
+		addField(userLabel, userText, 20);
 		
+		//password
 		JLabel passwordLabel = new JLabel("Enter a Password");
-		passwordLabel.setBounds(winWidth+10, winHeight+55, 150, 25);
-		add(passwordLabel);
-		
 		JPasswordField passwordText = new JPasswordField();
-		passwordText.setBounds(winWidth+145, winHeight+55, 165, 25);
-		add(passwordText);
+		addField(passwordLabel, passwordText, 55);
 		
+		//re-enter password
 		JLabel repasswordLabel = new JLabel("Re-enter Password");
-		repasswordLabel.setBounds(winWidth+10, winHeight+90, 150, 25);
-		add(repasswordLabel);
-		
 		JPasswordField repasswordText = new JPasswordField();
-		repasswordText.setBounds(winWidth+145, winHeight+90, 165, 25);
-		add(repasswordText);
-
+		addField(repasswordLabel, repasswordText, 90);
+		
 		//measurement label
 		JLabel measureLabel = new JLabel("Preferred Units");
 		measureLabel.setBounds(winWidth+10, winHeight+125, 150, 25); 
@@ -117,5 +107,12 @@ public class ProfileCreation1 extends JPanel {
 			}
 		});
 		add(nextButton);
+	}
+	
+	private void addField(JLabel label, JTextField field, int yShift) {
+		label.setBounds(winWidth+10, winHeight+yShift, 150, 25);
+		add(label);
+		field.setBounds(winWidth+145, winHeight+yShift, 165, 25);
+		add(field);
 	}
 }
