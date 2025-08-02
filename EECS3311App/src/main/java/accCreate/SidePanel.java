@@ -17,56 +17,12 @@ public class SidePanel extends JPanel {
 		setBackground(Color.gray);
 		setPreferredSize(new Dimension(150, getHeight()));
 		
-		JButton settingsButton = new JButton("Settings");
-		settingsButton.setBounds(25, 30, 100, 25);
-		settingsButton.setBackground(Color.white);
-		buttonHover(settingsButton);
-		buttonClicked(settingsButton, "settings", main);
-		add(settingsButton);
-		
-		JButton profileButton = new JButton("Profile");
-		profileButton.setBounds(25, 65, 100, 25);
-		profileButton.setBackground(Color.white);
-		buttonHover(profileButton);
-		profileButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	UserData data = main.getUser();
-            	if (data.getUnits().equals("Metric")) {
-            		main.switchToScreen("profileM");
-            	} else {
-            		main.switchToScreen("profileI");
-            	}
-            }
-        });
-		add(profileButton);
-
-		JButton logButton = new JButton("Log");
-		logButton.setBounds(25, 100, 100, 25);
-		logButton.setBackground(Color.white);
-		buttonHover(logButton);
-		buttonClicked(logButton, "log", main);
-		add(logButton);
-
-		JButton cfgButton = new JButton("CFG");
-		cfgButton.setBounds(25, 135, 100, 25);
-		cfgButton.setBackground(Color.white);
-		buttonHover(cfgButton);
-		buttonClicked(cfgButton, "cfg", main);
-		add(cfgButton);
-
-		JButton nutriButton = new JButton("Nutrition");
-		nutriButton.setBounds(25, 170, 100, 25);
-		nutriButton.setBackground(Color.white);
-		buttonHover(nutriButton);
-		buttonClicked(nutriButton, "nutrition", main);
-		add(nutriButton);
-
-		JButton logoutButton = new JButton("Logout");
-		logoutButton.setBounds(25, 205, 100, 25);
-		logoutButton.setBackground(Color.white);
-		buttonHover(logoutButton);
-		buttonClicked(logoutButton, "logout", main);
-		add(logoutButton);
+		setButton(new JButton("Settings"), 30, "settings", main);
+		setProfileButton(new JButton("Profile"), 65, main);
+		setButton(new JButton("Log"), 100, "log", main);
+		setButton(new JButton("CFG"), 135, "cfg", main);
+		setButton(new JButton("Nutrition"), 170, "nutrition", main);
+		setButton(new JButton("Logout"), 205, "logout", main);
 	}
 	
 	private void buttonHover(JButton button) {
@@ -89,5 +45,34 @@ public class SidePanel extends JPanel {
             	main.switchToScreen(screen);
             }
         });
+	}
+	
+	private void buttonClickedProfile(JButton button, MainUI main) {
+		button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	UserData data = main.getUser();
+            	if (data.getUnits().equals("Metric")) {
+            		main.switchToScreen("profileM");
+            	} else {
+            		main.switchToScreen("profileI");
+            	}
+            }
+        });
+	}
+	
+	private void setButton(JButton button, int yValue, String screen, MainUI main) {
+		button.setBounds(25, yValue, 100, 25);
+		button.setBackground(Color.white);
+		buttonHover(button);
+		buttonClicked(button, screen, main);
+		add(button);
+	}
+	
+	private void setProfileButton(JButton button, int yValue, MainUI main) {
+		button.setBounds(25, yValue, 100, 25);
+		button.setBackground(Color.white);
+		buttonHover(button);
+		buttonClickedProfile(button, main);
+		add(button);
 	}
 }
