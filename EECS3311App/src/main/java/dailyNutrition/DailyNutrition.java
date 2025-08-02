@@ -51,48 +51,30 @@ public class DailyNutrition extends JPanel {
 
 		//Instructions
 		JLabel instructions = new JLabel("Select Start and End Date to Visualize Daily Nutrient Intake", SwingConstants.CENTER);
-		gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 5; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(0, 0, 5);
 		add(instructions, gbc );
 		
 		//Start Date
 		JLabel dateStartLabel = new JLabel("Start Date");
-		gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(0, 1, 1);
 		add(dateStartLabel, gbc);
 		
 		JDateChooser dateStart = new JDateChooser();
-		gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(1, 1, 1);
 		add(dateStart, gbc);
 		
 		//End Date
 		JLabel dateEndLabel = new JLabel("End Date");
-		gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(2, 1, 1);
 		add(dateEndLabel, gbc);
 		
 		JDateChooser dateEnd = new JDateChooser();
-		gbc.gridx = 3;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(3, 1, 1);
 		add(dateEnd, gbc);
 		
 		//Calculate Button
 		JButton calcButton = new JButton("Calculate");
-		gbc.gridx = 4;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1; 
-        gbc.fill = GridBagConstraints.BOTH;
+		setGbc(4, 1, 1);
         calcButton.setBackground(new Color(58, 162, 224));
 		calcButton.setContentAreaFilled(false);
 		calcButton.addMouseListener(new MouseAdapter() {
@@ -146,7 +128,6 @@ public class DailyNutrition extends JPanel {
 
         //set chart type
         context1.setChartType(new BarGraphChart()); 
-
       
         //get chart
         JFreeChart chart = context1.getChart(avgNutrition, "Top 10 Daily Average Nutrition", "Grams", "Nutrients");
@@ -157,20 +138,14 @@ public class DailyNutrition extends JPanel {
         chartPanel.setPreferredSize(preferredSize);
         
         //add chart 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 5;  
-        gbc.fill = GridBagConstraints.BOTH;
+        setGbc(0, 2, 5);
         gbc.weightx = 1.0;
         gbc.weighty = 1.0; 
         add(chartPanel, gbc);
         
         //add comparison table
         JTable compareTable = ComparisonChart.getComparisonTable(avgNutrition, recNutrition);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 5;  
-        gbc.fill = GridBagConstraints.BOTH;
+        setGbc(0, 3, 5);
         add(new JScrollPane(compareTable), gbc);
         chartsAdded = true;
         revalidate();
@@ -181,6 +156,13 @@ public class DailyNutrition extends JPanel {
 		removeAll();
 		setRange(main);
 		
+	}
+	
+	private void setGbc(int x, int y, int width) {
+		gbc.gridx = x;
+		gbc.gridy = y;
+	    gbc.gridwidth = width;  
+	    gbc.fill = GridBagConstraints.BOTH;
 	}
 	
 }
