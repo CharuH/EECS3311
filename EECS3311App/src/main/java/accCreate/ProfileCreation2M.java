@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -96,8 +97,7 @@ public class ProfileCreation2M extends ProfileCreation2Template {
 					}
 				} catch (Exception ex1) {
 					error = true;
-					ErrorWindow errorDoB = new ErrorWindow("Invalid Date of Birth");
-					errorDoB.errorMessage();
+					JOptionPane.showMessageDialog(null, "Invalid Date of Birth", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					height = Double.parseDouble(heightField.getText());
@@ -106,8 +106,7 @@ public class ProfileCreation2M extends ProfileCreation2Template {
 					}
 				} catch (Exception ex2) {
 					error = true;
-					ErrorWindow errorHeight = new ErrorWindow("Invalid Height");
-					errorHeight.errorMessage();
+					JOptionPane.showMessageDialog(null, "Invalid Height", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					weight = Double.parseDouble(weightField.getText());
@@ -116,8 +115,7 @@ public class ProfileCreation2M extends ProfileCreation2Template {
 					}
 				} catch (Exception ex3) {
 					error = true;
-					ErrorWindow errorWeight = new ErrorWindow("Invalid Weight");
-					errorWeight.errorMessage();
+					JOptionPane.showMessageDialog(null, "Invalid Weight", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				if (error == false) {
 					main.profile2(sex, dob, weight, height);
