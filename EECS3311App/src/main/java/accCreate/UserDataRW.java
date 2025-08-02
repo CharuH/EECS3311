@@ -206,7 +206,13 @@ public class UserDataRW {
                 double height = resultSet.getDouble("Height");
                 double weight = resultSet.getDouble("Weight");
 
-                data.setData(username, password, units, sex, LocalDate.of(birthYear, birthMonth, birthDay), height, weight);
+                data.setUsername(username);
+                data.setPassword(password);
+                data.setUnits(units);
+                data.setSex(sex);
+                data.setDob(LocalDate.of(birthYear, birthMonth, birthDay));
+                data.setHeight(height);
+                data.setWeight(weight);
             } 
 
 		} catch (SQLException e) {
