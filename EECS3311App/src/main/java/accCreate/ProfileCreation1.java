@@ -108,12 +108,10 @@ public class ProfileCreation1 extends JPanel {
 							main.switchToScreen("createProfile2I");
 						}
 					} else {
-						ErrorWindow error = new ErrorWindow("Invalid or Non-matching Password");
-						error.errorMessage();
+						JOptionPane.showMessageDialog(null, "Invalid or Non-matching Password", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					ErrorWindow error = new ErrorWindow("Username Already Taken");
-					error.errorMessage();
+					JOptionPane.showMessageDialog(null, "Username Already Taken", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
