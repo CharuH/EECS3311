@@ -29,16 +29,6 @@ public class UserData {
         return instance;
     }
 	
-	public void setData(String username, String password, String units, String sex, LocalDate dob, double height, double weight) {
-		this.username = username;
-		this.password = password;
-		this.units = units;
-		this.sex = sex;
-		this.dob = dob;
-		this.height = height;
-		this.weight = weight;
-	}
-	
 	public String getUsername() {
 		return username;
 	}
