@@ -16,36 +16,39 @@ public class DailyRecommendedNutrition {
 		Period age = Period.between(dob, dateCurrent);
 		String sex = userData.getSex();
 		double weight = userData.getWeight();
+		double ageYears = age.getYears();
+		double ageMonths = age.getMonths();
+		double ageDays = age.getDays();
 		double ageMax;
 		
 		//get maxAge category based on age
-		if (age.getYears() == 0) {
-			if (age.getMonths() > 6 || age.getMonths() == 6 && age.getDays() > 0) {
+		if (ageYears == 0) {
+			if (ageMonths > 6 || ageMonths == 6 && ageDays > 0) {
 				ageMax = 0.99;
 			} else {
 				ageMax = 0.57;
 			}
-		} else if (age.getYears() >= 1 && age.getYears() < 4) {
+		} else if (ageYears < 4) {
 			ageMax = 0.99;
-		} else if (age.getYears() >= 4 && age.getYears() < 9) {
+		} else if (ageYears < 9) {
 			ageMax = 8;
-		} else if (age.getYears() >= 9 && age.getYears() < 14) {
+		} else if (ageYears < 14) {
 			ageMax = 13;
-		} else if (age.getYears() >= 14 && age.getYears() < 19) {
+		} else if (ageYears < 19) {
 			ageMax = 18;
-		} else if (age.getYears() >= 19 && age.getYears() < 31) {
+		} else if (ageYears < 31) {
 			ageMax = 30;
-		} else if (age.getYears() >= 31 && age.getYears() < 51) {
+		} else if (ageYears < 51) {
 			ageMax = 50;
-		} else if (age.getYears() >= 51 && age.getYears() < 71) {
+		} else if (ageYears < 71) {
 			ageMax = 70;
 		} else {
 			ageMax = 122;
 		}
 		
 		//get recommended nutrition based on age, sex, weight
-		DailyNutritionDAO dailyNutritionDAO = new DailyNutritionDAO();
-		ArrayList<Entry<Nutrient, Double>> recNutrition = dailyNutritionDAO.getRecommendedNutrition(ageMax, sex, weight, avgNutrition);
+		DailyRecommendedNutritionDAO recNutritionDAO = new DailyRecommendedNutritionDAO();
+		ArrayList<Entry<Nutrient, Double>> recNutrition = recNutritionDAO.getRecommendedNutrition(ageMax, sex, weight, avgNutrition);
 		return recNutrition;
 	}
 }
