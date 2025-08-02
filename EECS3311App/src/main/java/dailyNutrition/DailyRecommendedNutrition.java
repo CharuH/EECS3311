@@ -16,6 +16,15 @@ public class DailyRecommendedNutrition {
 		Period age = Period.between(dob, dateCurrent);
 		String sex = userData.getSex();
 		double weight = userData.getWeight();
+		double ageMax = getAgeMax(age);
+		
+		//get recommended nutrition based on age, sex, weight
+		DailyRecommendedNutritionDAO recNutritionDAO = new DailyRecommendedNutritionDAO();
+		ArrayList<Entry<Nutrient, Double>> recNutrition = recNutritionDAO.getRecommendedNutrition(ageMax, sex, weight, avgNutrition);
+		return recNutrition;
+	}
+	
+	private static double getAgeMax(Period age) {
 		double ageYears = age.getYears();
 		double ageMonths = age.getMonths();
 		double ageDays = age.getDays();
@@ -45,10 +54,7 @@ public class DailyRecommendedNutrition {
 		} else {
 			ageMax = 122;
 		}
+		return ageMax;
 		
-		//get recommended nutrition based on age, sex, weight
-		DailyRecommendedNutritionDAO recNutritionDAO = new DailyRecommendedNutritionDAO();
-		ArrayList<Entry<Nutrient, Double>> recNutrition = recNutritionDAO.getRecommendedNutrition(ageMax, sex, weight, avgNutrition);
-		return recNutrition;
 	}
 }
