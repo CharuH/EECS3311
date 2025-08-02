@@ -18,40 +18,17 @@ import chart.PieChartStrategy;
 public class CFG extends JPanel {
 
 	public CFG(MainUI main) {
-		//get food groups of each meal 
-		double FruitVeg = 0;
-		double Protein = 0;
-		double Grain = 0;
-		double Mixed = 0;
 		String username = main.getUser().getUsername();
 		CFGDAO cfg = new CFGDAO();
-		double[] fg = cfg.getAverageMealFG(username); 
-		for (int x=1; x<=25; x++) {
-			//System.out.println("Food Group " + (x) + ": " + fg[x-1]);
-			if (x == 9 || x == 11) {
-				FruitVeg += fg[x-1];
-			} else if (x == 8 || x == 20) {
-				Grain += fg[x-1];
-			} else if (x == 1 || x == 5 || x == 7 || x == 10 || x == 12 || x == 13 || x == 15 || x == 16 || x == 17) {
-				Protein += fg[x-1];
-			} else {
-				Mixed += fg[x-1];
-			}
-		}
+		double[] foodGroupsCFG = sortGroupsCFG(cfg.getAverageMealFG(username));
 		
 		//add data for table1
 		HashMap<String, Double> data1 = new HashMap<>();
-		data1.put("Fruits & Vegetables", FruitVeg);
-		data1.put("Protein", Protein);
-		data1.put("Grain", Grain);
-		data1.put("Mixed/Other", Mixed);
+		setChartData(data1, foodGroupsCFG);
 		
 		//add data for table2
 		HashMap<String, Double> data2 = new HashMap<>();
-		data2.put("Fruits & Vegetables", 5.0);
-		data2.put("Protein", 2.5);
-		data2.put("Grain", 2.5);
-		data2.put("Mixed/Other", 0.0);
+		setChartData(data2, new double[] {5.0, 2.5, 2.5, 0.0});
 		
 		//setup frame
 		setPreferredSize(new Dimension(750, getHeight()));
@@ -74,29 +51,48 @@ public class CFG extends JPanel {
         //create chart
         ChartPanel chartPanel1 = new ChartPanel(chart1);
         ChartPanel chartPanel2 = new ChartPanel(chart2);  
-        Dimension preferredSize = new Dimension(350, 250);  
-        chartPanel1.setPreferredSize(preferredSize);
-        chartPanel2.setPreferredSize(preferredSize);
-  
-        //add chart 1
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;  
+        setChart(chartPanel1, gbc, 0, 0);
+        setChart(chartPanel2, gbc, 1, 0);
+	}
+	
+	private double[] sortGroupsCFG(double[] fg) {
+		//get food groups of each meal 
+		double FruitVeg = 0;
+		double Protein = 0;
+		double Grain = 0;
+		double Mixed = 0; 
+		for (int x=1; x<=25; x++) {
+			if (x == 9 || x == 11) {
+				FruitVeg += fg[x-1];
+			} else if (x == 8 || x == 20) {
+				Grain += fg[x-1];
+			} else if (x == 1 || x == 5 || x == 7 || x == 10 || x == 12 || x == 13 || x == 15 || x == 16 || x == 17) {
+				Protein += fg[x-1];
+			} else {
+				Mixed += fg[x-1];
+			}
+		}
+		double[] fgCFG = {FruitVeg, Protein, Grain, Mixed};
+		return fgCFG;
+	}
+	
+	private void setChart(ChartPanel panel, GridBagConstraints gbc, int x, int y) {
+		Dimension preferredSize = new Dimension(350, 250);  
+		panel.setPreferredSize(preferredSize);
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.gridwidth = 1;  
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0; 
-        add(chartPanel1, gbc);
-
-        //add chart 2
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;  
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0; 
-        add(chartPanel2, gbc);
-
-       
+		add(panel, gbc);
+	}
+	
+	private void setChartData(HashMap<String, Double> chartData, double[] data) {
+		chartData.put("Fruits & Vegetables", data[0]);
+		chartData.put("Protein", data[1]);
+		chartData.put("Grain", data[2]);
+		chartData.put("Mixed/Other", data[3]);
 	}
 	
 }
