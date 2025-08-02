@@ -71,8 +71,7 @@ public class Login extends JPanel{
 					read.getUser(username, password);
 					main.login();
 				} else {
-					ErrorWindow error = new ErrorWindow("Incorrect Username or Password");
-					error.errorMessage();
+					JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
